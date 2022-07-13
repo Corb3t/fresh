@@ -102,10 +102,10 @@ brew install --cask openvpn-connect # VPN into Home Network
 brew install --cask mullvadvpn # VPN overseas anonymously
 
 # Add some taps
-# brew tap joedrago/repo
+brew tap joedrago/repo
 
 # Install tap formulas
-# brew install joedrago/repo/avifenc
+brew install joedrago/repo/avifenc
 
 # Remove outdated versions from the cellar.
 brew cleanup
