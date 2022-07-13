@@ -5,7 +5,7 @@ Starting a fresh install of macOS and linux can be such a pain - all of your app
 If you are interested in setting up dotfiles, you should fork this repository, review the code, and remove and edit any things you don’t want or need. Use at your own risk!
 
 ## Start Here
-Clone this repo to the hidden ~/.config directory in your home directory to restore your app's configuration files.
+Clone this repo to the hidden ~/.config directory in your home directory to restore your app's configuration files!
 
 Run this:
 ```
