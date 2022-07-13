@@ -106,6 +106,35 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 # Finder > View > Show Path Bar
 defaults write com.apple.finder ShowPathbar -bool true
 
+###############################################################################
+# Activity Monitor                                                            #
+###############################################################################
+
+# Show the main window when launching Activity Monitor
+defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
+
+# Visualize CPU usage in the Activity Monitor Dock icon
+defaults write com.apple.ActivityMonitor IconType -int 5
+
+# Show all processes in Activity Monitor
+defaults write com.apple.ActivityMonitor ShowCategory -int 0
+
+# Sort Activity Monitor results by CPU usage
+defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
+defaults write com.apple.ActivityMonitor SortDirection -int 0
+
+######
+# Google Chrome
+######
+
+# Use the system-native print preview dialog
+defaults write com.google.Chrome DisablePrintPreview -bool true
+defaults write com.google.Chrome.canary DisablePrintPreview -bool true
+
+# Expand the print dialog by default
+defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
+defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool true
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Kill affected apps

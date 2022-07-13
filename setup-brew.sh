@@ -1,6 +1,7 @@
 # Upgrade brew
 sudo -v
 brew upgrade
+brew install bash #update bash
 
 # Install fonts
 brew tap homebrew/cask-fonts
@@ -22,6 +23,7 @@ brew install exa # Improved ls
 brew install awscli # AWS CLI
 brew install deno # Secure runtime for JS and TSs
 brew install nvm
+brew install tree
 brew install rustup-init
 brew install webp
 brew install yarn
