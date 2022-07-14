@@ -67,7 +67,7 @@ echo "Installing browser tools"
 brew install --cask firefox 
 brew install --cask google-chrome
 brew install --cask microsoft-edge
-brew install --cask tor-browser
+brew install tor
 brew install --cask openin # Choose which browser to open links with
 brew install --cask choosy # Similar to OpenIn, better extension support, I use both...
 brew install --cask adguard # Adblocking
