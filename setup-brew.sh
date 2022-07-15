@@ -31,6 +31,7 @@ brew install zsh-syntax-highlighting
 brew install btop # Resource monitor
 brew install htop # Interactive process manager
 brew install --cask hyper # New electron-based CLI 
+brew install warp #Another CLI
 
 # Essential macOS tools
 echo "Installing macOS Tools"
