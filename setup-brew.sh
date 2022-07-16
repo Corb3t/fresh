@@ -52,9 +52,8 @@ echo "Installing macOS apps"
 brew install --cask docker # docker container tool
 brew install --cask figma # UI/UX collaboration tool
 brew install --cask a-better-finder-rename # Bulk file renamer
-brew install --cask fantastical # Natural language calendar with awesome menubar entry
-brew install --cask iina # Video player
-brew install --cask obsidian # Personal knowledgebase app
+brew install iina # Video player
+brew install obsidian # Personal knowledgebase app
 brew install --cask raindropio # Bookmark manager
 brew install --cask microsoft-outlook
 brew install --cask transmission # BitTorrent
