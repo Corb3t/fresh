@@ -61,6 +61,7 @@ brew install --cask via # Keyboard firmware app
 brew install --cask tweetbot # Twitter 
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
+brew install --cask bettermouse #external mouse software
 
 # Browser tools
 echo "Installing browser tools"
