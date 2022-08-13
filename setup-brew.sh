@@ -96,7 +96,6 @@ brew install --cask signal
 brew install --cask slack
 brew install --cask whatsapp
 brew install --cask microsoft-teams
-brew install --cask zoom
 
 # VPN tools
 echo "Installing VPNs apps"
