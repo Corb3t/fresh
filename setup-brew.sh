@@ -33,6 +33,7 @@ brew install htop # Interactive process manager
 brew install --cask hyper # New electron-based CLI 
 brew install warp #Another CLI
 brew install fish #auto-suggest CLI tools
+brew install navi #auto-suggest CLI tool
 
 # Essential macOS tools
 echo "Installing macOS Tools"
