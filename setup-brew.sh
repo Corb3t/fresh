@@ -49,6 +49,7 @@ brew install --cask cleanshot # Screenshot app
 brew install --cask soundsource # Easily manage various sound sources on your computer and their outputs
 brew install --cask keka # Best unpacker app
 brew install bleunlock # Allows you to automatically lock/unlock your MacBook using any bluetooth device. (Phone, Watch, etc)
+brew install --cask hammerspoon # more scripting and automation software
 
 # Install app casks
 echo "Installing macOS apps"
