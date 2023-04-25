@@ -48,6 +48,7 @@ brew install --cask dash # API documentation app
 brew install --cask cleanshot # Screenshot app
 brew install --cask soundsource # Easily manage various sound sources on your computer and their outputs
 brew install --cask keka # Best unpacker app
+brew install bleunlock # Allows you to automatically lock/unlock your MacBook using any bluetooth device. (Phone, Watch, etc)
 
 # Install app casks
 echo "Installing macOS apps"
@@ -60,7 +61,6 @@ brew install --cask raindropio # Bookmark manager
 brew install --cask microsoft-outlook
 brew install --cask transmission # BitTorrent
 brew install --cask via # Keyboard firmware app
-brew install --cask tweetbot # Twitter 
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
 brew install --cask skim #free PDF editor
@@ -98,11 +98,13 @@ brew install --cask slack
 brew install --cask whatsapp
 brew install --cask microsoft-teams
 
+
 # VPN tools
 echo "Installing VPNs apps"
 brew install --cask wireguard-tools # VPN into Unraid Server
 brew install --cask openvpn-connect # VPN into Home Network
 brew install --cask mullvadvpn # VPN overseas anonymously
+brew install --cask windscribe
 
 # Add some taps
 brew tap joedrago/repo
