@@ -29,10 +29,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_command",
+                                        "key_code": "left_command",
                                         "modifiers": [
-                                            "right_control",
-                                            "right_option"
+                                            "left_control",
+                                            "left_option"
                                         ]
                                     }
                                 ],

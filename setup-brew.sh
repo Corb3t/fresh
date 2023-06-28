@@ -43,7 +43,7 @@ brew install --cask karabiner-elements # Keyboard remapper software
 brew install --cask bettertouchtool # Custom trackpad gestures, keyboard shortcuts, and scripting tool.
 brew install --cask bartender # Manage menubar items in macOS.
 brew install --cask automute # Automute volume when laptop goes to sleep
-brew install --cask rectangle-pro # Windows snapping app
+brew install --cask swish # Windows snapping app
 brew install --cask dash # API documentation app
 brew install --cask cleanshot # Screenshot app
 brew install --cask soundsource # Easily manage various sound sources on your computer and their outputs
@@ -99,6 +99,14 @@ brew install --cask slack
 brew install --cask whatsapp
 brew install --cask microsoft-teams
 
+# security tools
+echo "Installing security apps"
+brew install --cask lulu #Open-source firewall to block unknown outgoing connections
+brew install --cask oversight #Monitors computer mic and webcam
+brew install --cask do-not-disturb #Open-source physical access (aka 'evil maid') attack detector
+brew install --cask blockblock #Monitors common persistence locations
+brew install --cask knockknock #Tool to show what is persistently installed on the computer
+brew install --cask whatsyoursign #Shows a files cryptographic signing information
 
 # VPN tools
 echo "Installing VPNs apps"
@@ -112,6 +120,12 @@ brew tap joedrago/repo
 
 # Install tap formulas
 brew install joedrago/repo/avifenc
+
+# Install Mackup
+brew install mackup
+
+# Launch it and restore your files
+mackup restore
 
 # Remove outdated versions from the cellar.
 brew cleanup
