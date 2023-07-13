@@ -68,8 +68,11 @@ brew install --cask skim #free PDF editor
 brew install --cask bettermouse #external mouse software
 
 # Browser tools
-echo "Installing browser tools"
+echo "Installing browsers & tools"
+echo "Installing arc, my favorite browser - you should try it!"
+brew install --cask arc
 brew install --cask firefox 
+echo "Installing chrome, but you should try Arc out!"
 brew install --cask google-chrome
 brew install --cask microsoft-edge
 brew install tor
@@ -91,6 +94,7 @@ brew install --cask github
 
 # chat tools
 echo "Installing chat apps"
+brew install --cask beeper
 brew install --cask discord
 brew install --cask telegram-desktop
 brew install --cask adium
@@ -114,6 +118,10 @@ brew install --cask wireguard-tools # VPN into Unraid Server
 brew install --cask openvpn-connect # VPN into Home Network
 brew install --cask mullvadvpn # VPN overseas anonymously
 brew install --cask windscribe
+
+# Hardware Firmware and
+echo "Downloading Hardware Apps"
+brew install --cask elgato-stream-deck # Stream Deck Software
 
 # Add some taps
 brew tap joedrago/repo
