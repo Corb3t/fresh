@@ -118,6 +118,7 @@ brew install --cask wireguard-tools # VPN into Unraid Server
 brew install --cask openvpn-connect # VPN into Home Network
 brew install --cask mullvadvpn # VPN overseas anonymously
 brew install --cask windscribe
+brew install tailscale
 
 # Hardware Firmware and
 echo "Downloading Hardware Apps"
