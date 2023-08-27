@@ -37,6 +37,9 @@ brew install navi #auto-suggest CLI tool
 
 # Essential macOS tools
 echo "Installing macOS Tools"
+
+brew install --cask itch # Game download client
+brew install --cask showmeyourhotkeys # Shows shortcuts for active app
 brew install --cask 1password # Password manager app
 brew install --cask alfred # My most used app. Ultra powerful searchbar that lets me quickly open apps, bookmarks, and more.
 brew install --cask karabiner-elements # Keyboard remapper software 
@@ -46,6 +49,7 @@ brew install --cask automute # Automute volume when laptop goes to sleep
 brew install --cask swish # Windows snapping app
 brew install --cask dash # API documentation app
 brew install --cask cleanshot # Screenshot app
+brew install --cask shottr # Another screenshot app
 brew install --cask soundsource # Easily manage various sound sources on your computer and their outputs
 brew install --cask keka # Best unpacker app
 brew install bleunlock # Allows you to automatically lock/unlock your MacBook using any bluetooth device. (Phone, Watch, etc)
@@ -53,7 +57,7 @@ brew install --cask hammerspoon # more scripting and automation software
 
 # Install app casks
 echo "Installing macOS apps"
-brew install --cask docker # docker container tool
+brew install orbstack # docker container tool
 brew install --cask figma # UI/UX collaboration tool
 brew install --cask a-better-finder-rename # Bulk file renamer
 brew install iina # Video player
