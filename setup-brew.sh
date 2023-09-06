@@ -16,6 +16,10 @@ sudo apt-get install zsh
 brew install romkatv/powerlevel10k/powerlevel10k
 echo "source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
 
+# Install Dev tools
+echo "Installing dev tools"
+brew install --cask playdate-simulator # Playdate handheld SDK
+
 # Install CLI tools
 echo "Installing CLI Tools"
 brew install lsd # Improved ls 
@@ -37,7 +41,6 @@ brew install navi #auto-suggest CLI tool
 
 # Essential macOS tools
 echo "Installing macOS Tools"
-
 brew install --cask itch # Game download client
 brew install --cask showmeyourhotkeys # Shows shortcuts for active app
 brew install --cask 1password # Password manager app
