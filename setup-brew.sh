@@ -18,7 +18,7 @@ echo "source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zs
 
 # Install Dev tools
 echo "Installing dev tools"
-brew install --cask playdate-simulator # Playdate handheld SDK
+brew install --cask displaylink
 
 # Install CLI tools
 echo "Installing CLI Tools"
@@ -41,15 +41,14 @@ brew install navi #auto-suggest CLI tool
 
 # Essential macOS tools
 echo "Installing macOS Tools"
-brew install --cask itch # Game download client
-brew install --cask showmeyourhotkeys # Shows shortcuts for active app
+# brew install --cask showmeyourhotkeys # Shows shortcuts for active app
 brew install --cask 1password # Password manager app
 brew install --cask alfred # My most used app. Ultra powerful searchbar that lets me quickly open apps, bookmarks, and more.
 brew install --cask karabiner-elements # Keyboard remapper software 
 brew install --cask bettertouchtool # Custom trackpad gestures, keyboard shortcuts, and scripting tool.
 brew install --cask bartender # Manage menubar items in macOS.
-brew install --cask automute # Automute volume when laptop goes to sleep
-brew install --cask swish # Windows snapping app
+brew install --cask swish # Windows gesture snapping app
+brew install --cask moom # Windows snapping tool
 brew install --cask dash # API documentation app
 brew install --cask cleanshot # Screenshot app
 brew install --cask shottr # Another screenshot app
@@ -57,6 +56,8 @@ brew install --cask soundsource # Easily manage various sound sources on your co
 brew install --cask keka # Best unpacker app
 brew install bleunlock # Allows you to automatically lock/unlock your MacBook using any bluetooth device. (Phone, Watch, etc)
 brew install --cask hammerspoon # more scripting and automation software
+brew install --cask bunch # automation tool
+brew install --cask dropzone # menubar drop area tool
 
 # Install app casks
 echo "Installing macOS apps"
@@ -66,13 +67,13 @@ brew install --cask a-better-finder-rename # Bulk file renamer
 brew install iina # Video player
 brew install obsidian # Personal knowledgebase app
 brew install --cask raindropio # Bookmark manager
-brew install --cask microsoft-outlook
 brew install --cask transmission # BitTorrent
 brew install --cask via # Keyboard firmware app
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
 brew install --cask skim #free PDF editor
 brew install --cask bettermouse #external mouse software
+brew install --cask fmail2 #fastmail email client
 
 # Browser tools
 echo "Installing browsers & tools"
@@ -81,9 +82,8 @@ brew install --cask arc
 brew install --cask firefox 
 echo "Installing chrome, but you should try Arc out!"
 brew install --cask google-chrome
-brew install --cask microsoft-edge
 brew install tor
-brew install --cask openin # Choose which browser to open links with
+# brew install --cask openin # Choose which browser to open links with
 brew install --cask choosy # Similar to OpenIn, better extension support, I use both...
 brew install --cask adguard # Adblocking
 brew install --cask hush # Remove referral link tags
@@ -96,10 +96,16 @@ brew install --cask google-drive
 # IDE Tools
 echo "Installing IDE apps"
 brew install --cask nova #fresh designed in nova! try it out!
-brew install --cask visual-studio-code
 brew install --cask github
 
-# chat tools
+# Microsoft apps
+echo "Installing Windows apps"
+brew install --cask microsoft-edge
+brew install --cask microsoft-outlook
+brew install --cask microsoft-office
+brew install --cask microsoft-teams
+
+# chat apps
 echo "Installing chat apps"
 brew install --cask beeper
 brew install --cask discord
@@ -108,7 +114,6 @@ brew install --cask adium
 brew install --cask signal
 brew install --cask slack
 brew install --cask whatsapp
-brew install --cask microsoft-teams
 
 # security tools
 echo "Installing security apps"
@@ -122,14 +127,20 @@ brew install --cask whatsyoursign #Shows a files cryptographic signing informati
 # VPN tools
 echo "Installing VPNs apps"
 brew install --cask wireguard-tools # VPN into Unraid Server
-brew install --cask openvpn-connect # VPN into Home Network
+# brew install --cask openvpn-connect # VPN into Home Network
 brew install --cask mullvadvpn # VPN overseas anonymously
 brew install --cask windscribe
 brew install tailscale
 
+# Install Games
+echo "Installing game apps"
+# brew install --cask itch # Game download client
+brew install --cask playdate-simulator # Playdate handheld SDK
+
 # Hardware Firmware and
 echo "Downloading Hardware Apps"
 brew install --cask elgato-stream-deck # Stream Deck Software
+brew install --cask mutedeck # MuteDeck plugin
 
 # Add some taps
 brew tap joedrago/repo
