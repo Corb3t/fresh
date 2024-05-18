@@ -82,6 +82,7 @@ brew install --cask arc
 brew install --cask firefox 
 echo "Installing chrome, but you should try Arc out!"
 brew install --cask google-chrome
+brew install --cask google-chrome@beta
 brew install tor
 # brew install --cask openin # Choose which browser to open links with
 brew install --cask choosy # Similar to OpenIn, better extension support, I use both...
