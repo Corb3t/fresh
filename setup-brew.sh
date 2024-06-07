@@ -19,6 +19,7 @@ echo "source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zs
 # Install Dev tools
 echo "Installing dev tools"
 brew install --cask displaylink
+brew install --cask daisydisk
 
 # Install CLI tools
 echo "Installing CLI Tools"
@@ -55,7 +56,7 @@ brew install --cask shottr # Another screenshot app
 brew install --cask soundsource # Easily manage various sound sources on your computer and their outputs
 brew install --cask keka # Best unpacker app
 brew install bleunlock # Allows you to automatically lock/unlock your MacBook using any bluetooth device. (Phone, Watch, etc)
-brew install --cask hammerspoon # more scripting and automation software
+# brew install --cask hammerspoon # more scripting and automation software
 brew install --cask bunch # automation tool
 brew install --cask dropzone # menubar drop area tool
 
@@ -72,7 +73,7 @@ brew install --cask via # Keyboard firmware app
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
 brew install --cask skim #free PDF editor
-brew install --cask bettermouse #external mouse software
+# brew install --cask bettermouse #external mouse software
 brew install --cask fmail2 #fastmail email client
 
 # Browser tools
