@@ -52,6 +52,8 @@ brew install --cask swish # Windows gesture snapping app
 brew install --cask moom # Windows snapping tool
 brew install --cask dash # API documentation app
 brew install --cask cleanshot # Screenshot app
+brew install --cask clop # Image optimizer tool
+
 brew install --cask shottr # Another screenshot app
 brew install --cask soundsource # Easily manage various sound sources on your computer and their outputs
 brew install --cask keka # Best unpacker app
@@ -59,6 +61,8 @@ brew install bleunlock # Allows you to automatically lock/unlock your MacBook us
 # brew install --cask hammerspoon # more scripting and automation software
 brew install --cask bunch # automation tool
 brew install --cask dropzone # menubar drop area tool
+brew install --cask dropshare #file sharing menubar tool
+
 
 # Install app casks
 echo "Installing macOS apps"
