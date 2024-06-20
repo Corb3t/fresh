@@ -74,6 +74,7 @@ brew install obsidian # Personal knowledgebase app
 brew install --cask raindropio # Bookmark manager
 brew install --cask transmission # BitTorrent
 brew install --cask via # Keyboard firmware app
+brew install --cask capslocknodelay
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
 brew install --cask skim #free PDF editor
