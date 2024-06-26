@@ -62,6 +62,8 @@ brew install bleunlock # Allows you to automatically lock/unlock your MacBook us
 brew install --cask bunch # automation tool
 brew install --cask dropzone # menubar drop area tool
 brew install --cask dropshare #file sharing menubar tool
+brew tap dail8859/notepadnext 
+brew install --no-quarantine notepadnext #Notepad++ alternative
 
 
 # Install app casks
