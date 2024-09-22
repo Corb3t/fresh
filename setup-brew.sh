@@ -53,7 +53,6 @@ brew install --cask moom # Windows snapping tool
 brew install --cask dash # API documentation app
 brew install --cask cleanshot # Screenshot app
 brew install --cask clop # Image optimizer tool
-
 brew install --cask shottr # Another screenshot app
 brew install --cask soundsource # Easily manage various sound sources on your computer and their outputs
 brew install --cask keka # Best unpacker app
@@ -82,6 +81,7 @@ brew install --cask pdf-expert # PDF editor
 brew install --cask skim #free PDF editor
 # brew install --cask bettermouse #external mouse software
 brew install --cask fmail2 #fastmail email client
+brew install --cask rustdesk # Remote Desktop into SteamDeck
 
 # Browser tools
 echo "Installing browsers & tools"
