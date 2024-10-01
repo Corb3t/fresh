@@ -79,7 +79,8 @@ brew install --cask capslocknodelay
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
 brew install --cask skim #free PDF editor
-# brew install --cask bettermouse #external mouse software
+brew install --cask bettermouse #external mouse software
+brew install --cask logi-options+ #logitech mouse software
 brew install --cask fmail2 #fastmail email client
 brew install --cask rustdesk # Remote Desktop into SteamDeck
 
