@@ -88,11 +88,9 @@ brew install --cask rustdesk # Remote Desktop into SteamDeck
 
 # Browser tools
 echo "Installing browsers & tools"
-echo "Installing arc, my favorite browser - you should try it!"
-brew install --cask arc
+# brew install --cask arc
 brew install --cask firefox 
-echo "Installing chrome, but you should try Arc out!"
-brew install --cask google-chrome
+brew install --cask chromium
 brew install --cask google-chrome@beta
 brew install tor
 # brew install --cask openin # Choose which browser to open links with
@@ -112,10 +110,10 @@ brew install --cask github
 
 # Microsoft apps
 echo "Installing Windows apps"
-brew install --cask microsoft-edge
-brew install --cask microsoft-outlook
-brew install --cask microsoft-office
-brew install --cask microsoft-teams
+# brew install --cask microsoft-edge
+# brew install --cask microsoft-outlook
+# brew install --cask microsoft-office
+# brew install --cask microsoft-teams
 
 # chat apps
 echo "Installing chat apps"
@@ -140,14 +138,14 @@ brew install --cask whatsyoursign #Shows a files cryptographic signing informati
 echo "Installing VPNs apps"
 brew install --cask wireguard-tools # VPN into Unraid Server
 # brew install --cask openvpn-connect # VPN into Home Network
-brew install --cask mullvadvpn # VPN overseas anonymously
+# brew install --cask mullvadvpn # VPN overseas anonymously
 brew install --cask windscribe
 brew install tailscale
 
 # Install Games
 echo "Installing game apps"
 # brew install --cask itch # Game download client
-brew install --cask playdate-simulator # Playdate handheld SDK
+# brew install --cask playdate-simulator # Playdate handheld SDK
 
 # Hardware Firmware and
 echo "Downloading Hardware Apps"
