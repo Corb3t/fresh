@@ -39,6 +39,8 @@ brew install --cask hyper # New electron-based CLI
 brew install warp #Another CLI
 brew install fish #auto-suggest CLI tools
 brew install navi #auto-suggest CLI tool
+brew install webp #easily convert files to webp format, see https://developers.google.com/speed/webp/docs/cwebp
+npm install pwa-asset-generator #easily generate webdev pwa icons
 
 # Essential macOS tools
 echo "Installing macOS Tools"
