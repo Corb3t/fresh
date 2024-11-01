@@ -90,7 +90,7 @@ brew install --cask rustdesk # Remote Desktop into SteamDeck
 echo "Installing browsers & tools"
 # brew install --cask arc
 brew install --cask firefox 
-brew install --cask chromium
+brew install --cask eloston-chromium
 brew install --cask google-chrome@beta
 brew install tor
 # brew install --cask openin # Choose which browser to open links with
