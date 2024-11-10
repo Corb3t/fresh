@@ -35,8 +35,8 @@ brew install yarn
 brew install zsh-syntax-highlighting 
 brew install btop # Resource monitor
 brew install htop # Interactive process manager
-brew install --cask hyper # New electron-based CLI 
-brew install warp #Another CLI
+# brew install --cask hyper # New electron-based CLI 
+# brew install warp #Another CLI
 brew install fish #auto-suggest CLI tools
 brew install navi #auto-suggest CLI tool
 brew install webp #easily convert files to webp format, see https://developers.google.com/speed/webp/docs/cwebp
@@ -90,26 +90,30 @@ brew install --cask rustdesk # Remote Desktop into SteamDeck
 echo "Installing browsers & tools"
 # brew install --cask arc
 brew install --cask firefox 
-brew install --cask eloston-chromium
-brew install --cask google-chrome@beta
-brew install tor
-# brew install --cask openin # Choose which browser to open links with
+brew install --cask eloston-chromium #ungoogle'd chrome
+
 brew install --cask choosy # Similar to OpenIn, better extension support, I use both...
 brew install --cask adguard # Adblocking
 brew install --cask hush # Remove referral link tags
+# brew install --cask google-drive
+# brew install --cask google-chrome@beta
+# brew install tor
+# brew install --cask openin # Choose which browser to open links with
 
-# Cloud tools
-echo "Installing cloud apps"
-brew install onedrive #microsoft one drive 
-brew install --cask google-drive
-
-# IDE Tools
-echo "Installing IDE apps"
+# Dev Tools
+echo "Installing Dev apps"
 brew install --cask nova #fresh designed in nova! try it out!
 brew install --cask github
 
+# AI & LLMs Apps
+echo "Installing AI/LLM Apps"
+brew install --cask chatgpt
+brew install --cask lm-studio
+brew install --cask diffusionbee
+
 # Microsoft apps
 echo "Installing Windows apps"
+# brew install onedrive #microsoft one drive 
 # brew install --cask microsoft-edge
 # brew install --cask microsoft-outlook
 # brew install --cask microsoft-office
@@ -127,12 +131,13 @@ brew install --cask whatsapp
 
 # security tools
 echo "Installing security apps"
+# brew install --cask little-snitch 
 brew install --cask lulu #Open-source firewall to block unknown outgoing connections
 brew install --cask oversight #Monitors computer mic and webcam
 brew install --cask do-not-disturb #Open-source physical access (aka 'evil maid') attack detector
 brew install --cask blockblock #Monitors common persistence locations
 brew install --cask knockknock #Tool to show what is persistently installed on the computer
-brew install --cask whatsyoursign #Shows a files cryptographic signing information
+# brew install --cask whatsyoursign #Shows a files cryptographic signing information
 
 # VPN tools
 echo "Installing VPNs apps"
