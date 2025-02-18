@@ -46,6 +46,8 @@ npm install pwa-asset-generator #easily generate webdev pwa icons
 echo "Installing macOS Tools"
 # brew install --cask showmeyourhotkeys # Shows shortcuts for active app
 brew install --cask 1password # Password manager app
+brew install --cask kunkun # open source search bar that rivals Alfred
+brew install flashspace # workspace manager
 brew install --cask alfred # My most used app. Ultra powerful searchbar that lets me quickly open apps, bookmarks, and more.
 brew install --cask karabiner-elements # Keyboard remapper software 
 brew install --cask bettertouchtool # Custom trackpad gestures, keyboard shortcuts, and scripting tool.
