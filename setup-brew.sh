@@ -36,7 +36,9 @@ brew install zsh-syntax-highlighting
 brew install btop # Resource monitor
 brew install htop # Interactive process manager
 # brew install --cask hyper # New electron-based CLI 
-# brew install warp #Another CLI
+brew install --cask ghostty # Rust CLI
+brew install warp #Another CLI
+brew install starship #CLI Autosuggestion/Complete
 brew install fish #auto-suggest CLI tools
 brew install navi #auto-suggest CLI tool
 brew install webp #easily convert files to webp format, see https://developers.google.com/speed/webp/docs/cwebp
@@ -106,12 +108,15 @@ brew install --cask hush # Remove referral link tags
 echo "Installing Dev apps"
 brew install --cask nova #fresh designed in nova! try it out!
 brew install --cask github
+brew install --cask zed #Multiplayer code editor w/ LLM support
+
 
 # AI & LLMs Apps
 echo "Installing AI/LLM Apps"
 brew install --cask chatgpt
 brew install --cask lm-studio
 brew install --cask diffusionbee
+brew install --cask msty #Best all-in-one model app
 
 # Microsoft apps
 echo "Installing Windows apps"
