@@ -74,21 +74,21 @@ brew install --no-quarantine notepadnext #Notepad++ alternative
 # Install app casks
 echo "Installing macOS apps"
 brew install orbstack # docker container tool
-brew install --cask figma # UI/UX collaboration tool
+# brew install --cask figma # UI/UX collaboration tool
 brew install --cask a-better-finder-rename # Bulk file renamer
 brew install iina # Video player
 brew install obsidian # Personal knowledgebase app
 brew install --cask raindropio # Bookmark manager
-brew install --cask transmission # BitTorrent
+brew install --cask transmission # BitTorrent app
 brew install --cask via # Keyboard firmware app
 brew install --cask capslocknodelay
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
 brew install --cask skim #free PDF editor
 brew install --cask bettermouse #external mouse software
-brew install --cask logi-options+ #logitech mouse software
-brew install --cask fmail2 #fastmail email client
-brew install --cask rustdesk # Remote Desktop into SteamDeck
+# brew install --cask logi-options+ #logitech mouse software
+brew install --cask fmail3 #fastmail email client
+# brew install --cask rustdesk # Remote Desktop into SteamDeck
 
 # Browser tools
 echo "Installing browsers & tools"
