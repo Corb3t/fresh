@@ -148,10 +148,10 @@ brew install --cask knockknock #Tool to show what is persistently installed on t
 
 # VPN tools
 echo "Installing VPNs apps"
-brew install --cask wireguard-tools # VPN into Unraid Server
+# brew install --cask wireguard-tools # VPN into Unraid Server
 # brew install --cask openvpn-connect # VPN into Home Network
 # brew install --cask mullvadvpn # VPN overseas anonymously
-brew install --cask windscribe
+# brew install --cask windscribe
 brew install tailscale
 
 # Install Games
