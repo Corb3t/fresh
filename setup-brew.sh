@@ -94,7 +94,7 @@ brew install --cask rustdesk # Remote Desktop into SteamDeck
 echo "Installing browsers & tools"
 # brew install --cask arc
 brew install --cask firefox 
-brew install --cask eloston-chromium #ungoogle'd chrome
+brew install --cask eloston-chromium #ungoogle'd chrome, my current preferred browser
 
 brew install --cask choosy # Similar to OpenIn, better extension support, I use both...
 brew install --cask adguard # Adblocking
@@ -108,15 +108,15 @@ brew install --cask hush # Remove referral link tags
 echo "Installing Dev apps"
 brew install --cask nova #fresh designed in nova! try it out!
 brew install --cask github
-brew install --cask zed #Multiplayer code editor w/ LLM support
+# brew install --cask zed #Multiplayer code editor w/ LLM support
 
 
 # AI & LLMs Apps
 echo "Installing AI/LLM Apps"
 brew install --cask chatgpt
-brew install --cask lm-studio
-brew install --cask diffusionbee
-brew install --cask msty #Best all-in-one model app
+# brew install --cask lm-studio
+# brew install --cask diffusionbee
+# brew install --cask msty #Best all-in-one model app
 
 # Microsoft apps
 echo "Installing Windows apps"
