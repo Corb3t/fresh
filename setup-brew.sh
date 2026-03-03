@@ -4,46 +4,37 @@ brew upgrade
 brew install bash #update bash
 
 # Install fonts
-brew tap homebrew/cask-fonts
 brew install --cask font-hack-nerd-font
-
-# Install iterm2/zsh/oh-my-zsh/powerlevel10k
-echo "Installing iterm2/zsh/oh-my-zsh/powerlevel-10k"
-brew install iterm2
-curl -L https://iterm2.com/shell_integration/install_shell_integration.sh | bash
-brew install zsh
-sudo apt-get install zsh 
-brew install romkatv/powerlevel10k/powerlevel10k
-echo "source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zshrc
 
 # Install Dev tools
 echo "Installing dev tools"
+brew install zsh
+sudo apt-get install zsh 
 brew install --cask displaylink
 brew install --cask daisydisk
 brew install node # For local javascript website testing
 brew install cloudflare-wrangler # For quick deploying to Cloudflare Worker Pages
 sudo apt install wget # Retrieves content from web servers
+brew install --cask github
+
+# Dev Tools
+echo "Installing Dev apps"
+brew install --cask nova #fresh designed in nova! try it out!
 
 # Install CLI tools
 echo "Installing CLI Tools"
-brew install lsd # Improved ls 
-brew install exa # Improved ls 
+brew install eza # Improved ls 
 brew install awscli # AWS CLI
 brew install deno # Secure runtime for JS and TSs
 brew install nvm
 brew install tree
 brew install rustup-init
-brew install webp
 brew install yarn
 brew install zsh-syntax-highlighting 
 brew install btop # Resource monitor
-brew install htop # Interactive process manager
-# brew install --cask hyper # New electron-based CLI 
 brew install --cask ghostty # Rust CLI
-brew install warp #Another CLI
-brew install starship #CLI Autosuggestion/Complete
-brew install fish #auto-suggest CLI tools
-brew install navi #auto-suggest CLI tool
+brew install starship #Best CLI Autosuggestion/Complete
+brew install zsh-autosuggestions zsh-syntax-highlighting zoxide
 brew install webp #easily convert files to webp format, see https://developers.google.com/speed/webp/docs/cwebp
 npm install pwa-asset-generator #easily generate webdev pwa icons
 
@@ -56,7 +47,6 @@ brew install flashspace # workspace manager
 brew install --cask alfred # My most used app. Ultra powerful searchbar that lets me quickly open apps, bookmarks, and more.
 brew install --cask karabiner-elements # Keyboard remapper software 
 brew install --cask bettertouchtool # Custom trackpad gestures, keyboard shortcuts, and scripting tool.
-brew install --cask bartender # Manage menubar items in macOS.
 brew install --cask swish # Windows gesture snapping app
 brew install --cask moom # Windows snapping tool
 brew install --cask dash # API documentation app
@@ -87,7 +77,6 @@ brew install --cask via # Keyboard firmware app
 brew install --cask capslocknodelay
 brew install --cask spotify # Spotify music player
 brew install --cask pdf-expert # PDF editor
-brew install --cask skim #free PDF editor
 brew install --cask bettermouse #external mouse software
 # brew install --cask logi-options+ #logitech mouse software
 brew install --cask fmail3 #fastmail email client
@@ -106,13 +95,6 @@ brew install --cask hush # Remove referral link tags
 # brew install --cask google-chrome@beta
 # brew install tor
 # brew install --cask openin # Choose which browser to open links with
-
-# Dev Tools
-echo "Installing Dev apps"
-brew install --cask nova #fresh designed in nova! try it out!
-brew install --cask github
-# brew install --cask zed #Multiplayer code editor w/ LLM support
-
 
 # AI & LLMs Apps
 echo "Installing AI/LLM Apps"
