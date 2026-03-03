@@ -20,6 +20,9 @@ echo "source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme" >>~/.zs
 echo "Installing dev tools"
 brew install --cask displaylink
 brew install --cask daisydisk
+brew install node # For local javascript website testing
+brew install cloudflare-wrangler # For quick deploying to Cloudflare Worker Pages
+sudo apt install wget # Retrieves content from web servers
 
 # Install CLI tools
 echo "Installing CLI Tools"
@@ -113,10 +116,12 @@ brew install --cask github
 
 # AI & LLMs Apps
 echo "Installing AI/LLM Apps"
-brew install --cask chatgpt
+brew install --cask claude
+# brew install --cask chatgpt
 # brew install --cask lm-studio
 # brew install --cask diffusionbee
 # brew install --cask msty #Best all-in-one model app
+
 
 # Microsoft apps
 echo "Installing Windows apps"
@@ -133,7 +138,7 @@ brew install --cask discord
 brew install --cask telegram-desktop
 brew install --cask adium
 brew install --cask signal
-brew install --cask slack
+# brew install --cask slack
 brew install --cask whatsapp
 
 # security tools
