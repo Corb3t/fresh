@@ -4,13 +4,12 @@ brew upgrade
 brew install bash #update bash
 
 # Install fonts
-brew tap homebrew/cask-fonts
 brew install --cask font-hack-nerd-font
 
 # Install iterm2/zsh/oh-my-zsh/powerlevel10k
 echo "Installing iterm2/zsh/oh-my-zsh/powerlevel-10k"
-brew install iterm2
-curl -L https://iterm2.com/shell_integration/install_shell_integration.sh | bash
+# brew install iterm2
+# curl -L https://iterm2.com/shell_integration/install_shell_integration.sh | bash
 brew install zsh
 sudo apt-get install zsh 
 brew install romkatv/powerlevel10k/powerlevel10k
@@ -26,8 +25,7 @@ sudo apt install wget # Retrieves content from web servers
 
 # Install CLI tools
 echo "Installing CLI Tools"
-brew install lsd # Improved ls 
-brew install exa # Improved ls 
+brew install eza # Improved ls 
 brew install awscli # AWS CLI
 brew install deno # Secure runtime for JS and TSs
 brew install nvm
@@ -37,10 +35,9 @@ brew install webp
 brew install yarn
 brew install zsh-syntax-highlighting 
 brew install btop # Resource monitor
-brew install htop # Interactive process manager
 # brew install --cask hyper # New electron-based CLI 
 brew install --cask ghostty # Rust CLI
-brew install warp #Another CLI
+#brew install warp #Another CLI
 brew install starship #CLI Autosuggestion/Complete
 brew install fish #auto-suggest CLI tools
 brew install navi #auto-suggest CLI tool
