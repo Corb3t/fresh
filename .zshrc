@@ -33,6 +33,7 @@ alias gco="git checkout"
 alias dco="docker-compose"
 alias lc="colorls -lA --sd"
 alias nano="micro"
+alias wrangler='nocorrect wrangler'
 
 # ------------------------------------------------------------------------------
 # 4. Plugins & Prompt Integration
