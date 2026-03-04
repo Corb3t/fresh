@@ -151,10 +151,8 @@ for app in "Activity Monitor" "Calendar" "Contacts" "cfprefsd" \
     "Ghostty" "Arc"; do
     killall "${app}" > /dev/null 2>&1
 done
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Don’t display the annoying prompt when quitting iTerm
-defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Done
 echo "Done. Note that some of these changes require a logout/restart to take effect."

@@ -13,11 +13,6 @@ git clone https://github.com/corb3t/fresh.git ~/.config
 cd ~/.config
 ```
 
-## Install Fonts
-Navigate to /fresh/fonts and manually open all of the fonts in the folder. This will install them system-wide on your OS. MesloLGS NF provides really nice glyphs for your terminals:
-
-[![Image of iTerm 2 with Oh My Zsh + MesloLGS NF + Powerlevel 10k Installed](https://i.postimg.cc/J0kLpCQ9/Clean-Shot-2022-07-13-at-12-53-19-2x.png)](https://postimg.cc/PvT9qc94)
-
 ## Install Brew
 [Brew](https://brew.sh/) lets macOS and Linux users install applications from the command line. This lets users easily script and automate their app installation and configuration process using my fresh repo.
 
@@ -58,19 +53,6 @@ Download my favorite apps from the App store or independent websites:
 
 ## Keyboard
 Shortcuts: Disable Spotlight in preparation for enabling Alfred as default shortcut using cmd + space.
-
-## Configure iTerm2
-Create a new profile in Preferences > Profile named corbet
-Colors > Color presets > Tango Light
-
-Session > Status bar enabled and Configure Status Bar. Add git state, CPU utilization, Memory utilization. Click Auto-Rainbow.
-
-Repeat the settings for the Dark profile
-Mark dark profile and select Other Actions > Set as default.
-
-Download the font files for https://github.com/romkatv/powerlevel10k#manual-font-installation from fonts/ and double-click to open them all to follow "Install Font".
-
-Navigate to the iterm2 Preferences > Profiles > Text > Font and search for https://github.com/romkatv/powerlevel10k#manual-font-installation to select the font. Save and restart iTerm2.
 
 ## Upgrading Apps
 You can enforce a reinstall by running the two commands below, the second command
