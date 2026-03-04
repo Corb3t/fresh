@@ -31,7 +31,7 @@ Enter the following in terminal:
 To install off your apps outlined in setup-brew.sh, enter the following in terminal to run a script that will download as many app as possible using homebrew.
 
 ``` 
-source ~/.config/setup-brew.sh
+brew bundle --file ~/.config/Brewfile
 ```
 
 ## Setup macOS Settings

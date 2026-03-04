@@ -146,10 +146,11 @@ defaults write com.apple.Safari SuppressSearchSuggestions -bool true
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Kill affected apps
-for app in "Dock" "Finder"; do
-  killall "${app}" > /dev/null 2>&1
+for app in "Activity Monitor" "Calendar" "Contacts" "cfprefsd" \
+    "Dock" "Finder" "Mail" "Messages" "SystemUIServer" "Terminal" \
+    "Ghostty" "Arc"; do
+    killall "${app}" > /dev/null 2>&1
 done
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Don’t display the annoying prompt when quitting iTerm
