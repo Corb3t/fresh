@@ -28,6 +28,7 @@ brew "go"                      # The Go programming language
 brew "rustup"                  # Installer for the Rust systems programming toolchain
 brew "php"                     # PHP programming language
 brew "yarn"                    # Node package manager
+brew "micro"                   # Terminal text editor with GUI
 brew "pipx"                    # Tool for installing and running Python CLI apps
 brew "awscli"                  # Universal Command Line Interface for Amazon Web Services
 brew "cloudflare-wrangler"     # CLI tool for building and deploying Cloudflare Workers
