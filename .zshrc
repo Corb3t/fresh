@@ -3,6 +3,7 @@
 # ------------------------------------------------------------------------------
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export EDITOR="micro"
 
 # Cloudflare / Node (Standard NVM works perfectly here)
 export NVM_DIR="$HOME/.nvm"
@@ -31,6 +32,7 @@ alias gl="git pull"
 alias gco="git checkout"
 alias dco="docker-compose"
 alias lc="colorls -lA --sd"
+alias nano="micro"
 
 # ------------------------------------------------------------------------------
 # 4. Plugins & Prompt Integration
