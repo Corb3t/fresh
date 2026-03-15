@@ -6,10 +6,10 @@ sudo -v
 
 # ── Core CLI Tools ────────────────────────────────────────────────────────────
 
-ln -sf ~/.config/.zshrc ~/.zshrc
-ln -sf ~/.config/.gitconfig ~/.gitconfig
-ln -sf ~/.config/.zprofile ~/.zprofile
-ln -sf ~/.config/.gitignore_global ~/.gitignore_global
+ln -sf ~/dot-config/.zshrc ~/.zshrc
+ln -sf ~/dot-config/.gitconfig ~/.gitconfig
+ln -sf ~/dot-config/.zprofile ~/.zprofile
+ln -sf ~/dot-config/.gitignore_global ~/.gitignore_global
 
 # ── Claude / Scaffold Tools ───────────────────────────────────────────────────
 #

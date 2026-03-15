@@ -1,0 +1,29 @@
+# ---------------------------------------------------------
+# UI & Aesthetics
+# ---------------------------------------------------------
+theme = "tokyonight"
+window-decoration = false
+window-padding-x = 12
+window-padding-y = 12
+background-opacity = 0.95
+
+# ---------------------------------------------------------
+# Typography
+# ---------------------------------------------------------
+font-family = "JetBrainsMono Nerd Font"
+font-size = 13
+font-thicken = true
+adjust-cell-height = 10%
+
+# ---------------------------------------------------------
+# Cursor & Scrollback
+# ---------------------------------------------------------
+cursor-style = bar
+cursor-style-blink = true
+scrollback-limit = 100000
+
+# ---------------------------------------------------------
+# Window & Pane Behavior
+# ---------------------------------------------------------
+copy-on-select = true
+confirm-close-surface = true
