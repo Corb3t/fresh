@@ -138,6 +138,19 @@ defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool t
 # Setup Mouse Support for Nano
 echo "set mouse" >> ~/.nanorc
 
+# Setup Global Gitignore
+# The symlink ~/.gitignore_global → ~/.config/.gitignore_global is created by
+# setup-symlinks.sh. Register it with git only if the file is already in place.
+if [ -f "$HOME/.gitignore_global" ]; then
+  git config --global core.excludesfile ~/.gitignore_global
+  echo "✅ Global gitignore registered: ~/.gitignore_global"
+else
+  echo "⚠️  ~/.gitignore_global not found — run setup-symlinks.sh first, then re-run:"
+  echo "   git config --global core.excludesfile ~/.gitignore_global"
+fi
+
+# Create tools directory for scaffold + Claude templates
+mkdir -p ~/tools
 ###############################################################################
 # Safari                                                                      #
 ###############################################################################
