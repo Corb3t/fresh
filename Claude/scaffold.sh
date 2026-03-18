@@ -75,6 +75,10 @@ if [ ! -f "$TEMPLATE_SRC" ]; then
 fi
 
 echo ""
+read -rp "📝 One-line description of what this project does: " PROJECT_DESC
+PROJECT_DESC="${PROJECT_DESC:-A new Cloudflare project.}"
+
+echo ""
 echo "🚀 Scaffolding $TEMPLATE Cloudflare monorepo: $PROJECT_NAME"
 echo ""
 
@@ -415,6 +419,20 @@ HEREDOC
 
 cp "$TEMPLATE_SRC" .claude/CLAUDE.md
 
+# Substitute known values into the project CLAUDE.md.
+# Uses python3 to safely handle special characters in user-provided input
+# (sed chokes on slashes and ampersands in project descriptions).
+python3 - "$PROJECT_NAME" "$PROJECT_DESC" << 'PYEOF'
+import sys, re
+name, desc = sys.argv[1], sys.argv[2]
+with open('.claude/CLAUDE.md', 'r') as f:
+    content = f.read()
+content = content.replace('{{PROJECT_NAME}}', name)
+content = re.sub(r'\{\{One-sentence description[^}]*\}\}', desc, content)
+with open('.claude/CLAUDE.md', 'w') as f:
+    f.write(content)
+PYEOF
+
 # ── 14. Git initialization & "Update Instead" configuration ───────────────
 echo "📦 Initializing Git and applying Tailscale safety rules..."
 git init
@@ -518,3 +536,112 @@ echo "   4. After first production deploy, update ALLOWED_ORIGIN in api/src/inde
 echo "      to your Cloudflare Pages domain and bind production secrets:"
 echo "      npx wrangler secret put AI_API_KEY"
 echo "      npx wrangler secret put DATABASE_URL"
+echo ""
+echo "──────────────────────────────────────────────────────────────────────────────"
+echo "📋 Complete .claude/CLAUDE.md before your first Claude Code session:"
+echo ""
+echo "   Already populated:"
+echo "   ✅  Project name"
+if [[ "$PROJECT_DESCRIPTION" != "{{TODO"* ]]; then
+  echo "   ✅  Description"
+else
+  echo "   ⚠️  Description         — fill this in first, Claude reads it every session"
+fi
+case "$TEMPLATE" in
+  fullstack)
+    echo "   ✅  Pages URL          — $PAGES_URL"
+    echo ""
+    echo "   Complete manually:"
+    echo "   ✏️   Worker URL subdomain — replace <your-subdomain> in Worker URL"
+    echo "   ✏️   Active Bindings     — update the table before adding any wrangler.toml binding"
+    echo "   ✏️   Known Quirks        — add as you discover them"
+    ;;
+  worker-only)
+    echo "   ✅  Worker URL (partial) — replace <your-subdomain> once known"
+    echo ""
+    echo "   Complete manually:"
+    echo "   ✏️   Trigger type         — Cron / HTTP / Queue"
+    echo "   ✏️   Cron schedule        — if applicable, add to wrangler.toml and document here"
+    echo "   ✏️   Output / Side Effects — what does it actually write, call, or send?"
+    echo "   ✏️   Active Bindings      — update before adding any wrangler.toml binding"
+    echo "   ✏️   Known Quirks         — add as you discover them"
+    ;;
+  static-site)
+    echo "   ✅  Pages URL          — $PAGES_URL"
+    echo ""
+    echo "   Complete manually:"
+    echo "   ✏️   Custom domain        — if applicable"
+    echo "   ✏️   Brand & Design table — fill in before writing any CSS (overrides global defaults)"
+    echo "   ✏️   Third-Party Scripts  — list every external domain loaded (needed for CSP headers)"
+    echo "   ✏️   Known Quirks         — add as you discover them"
+    ;;
+  data-app)
+    echo "   ✅  Pages URL          — $PAGES_URL"
+    echo "   ✅  Worker name        — ${PROJECT_NAME}-api"
+    echo ""
+    echo "   Complete manually (highest priority — Claude makes wrong assumptions without these):"
+    echo "   ✏️   Auth strategy        — Cloudflare Access / JWT / magic link / etc."
+    echo "   ✏️   Database Schema      — keep current; Claude reads this instead of migration files"
+    echo "   ✏️   Auth Flow            — document the request lifecycle once; Claude threads it everywhere"
+    echo "   ✏️   Active Bindings      — update before touching wrangler.toml"
+    echo "   ✏️   API Routes table     — add as you build"
+    echo "   ✏️   Known Quirks         — D1 gotchas, KV consistency, auth edge cases"
+    ;;
+esac
+echo ""
+echo "   Open now:  open .claude/CLAUDE.md"
+echo "──────────────────────────────────────────────────────────────────────────────"
+echo ""
+echo "📋 Before your first Claude Code session, complete .claude/CLAUDE.md:"
+echo ""
+
+case "$TEMPLATE" in
+  fullstack)
+    echo "   Required now:"
+    echo "   • Worker URL account subdomain  ({{ACCOUNT_SUBDOMAIN}})"
+    echo ""
+    echo "   Fill in as the project grows:"
+    echo "   • Active Bindings table — update before adding any KV/D1/R2 binding"
+    echo "   • Known Quirks — add as you discover them"
+    ;;
+  worker-only)
+    echo "   Required now:"
+    echo "   • Trigger type  (Cron / HTTP / Queue)"
+    echo "   • Worker URL account subdomain  ({{ACCOUNT_SUBDOMAIN}})"
+    echo ""
+    echo "   Fill in before first deploy:"
+    echo "   • Cron Schedule — add the wrangler.toml trigger block"
+    echo "   • Output / Side Effects — what does this Worker actually change?"
+    echo ""
+    echo "   Fill in as the project grows:"
+    echo "   • Active Bindings table"
+    echo "   • Known Quirks"
+    ;;
+  static-site)
+    echo "   Required now (before writing any CSS):"
+    echo "   • Brand & Design Decisions — token overrides from your global defaults"
+    echo ""
+    echo "   Fill in before first deploy:"
+    echo "   • Custom Domain  (if applicable)"
+    echo "   • Third-Party Scripts / Embeds — needed for CSP headers"
+    echo ""
+    echo "   Fill in as the project grows:"
+    echo "   • Page Structure table"
+    echo "   • Known Quirks"
+    ;;
+  data-app)
+    echo "   Required now:"
+    echo "   • Worker URL account subdomain  ({{ACCOUNT_SUBDOMAIN}})"
+    echo "   • Auth strategy  ({{Describe auth strategy...}})"
+    echo ""
+    echo "   Fill in before writing any routes:"
+    echo "   • Database Schema — keep current; Claude reads this instead of migration files"
+    echo "   • Auth Flow — document the full request lifecycle once"
+    echo ""
+    echo "   Fill in as the project grows:"
+    echo "   • Active Bindings table — update before adding any binding"
+    echo "   • API Routes table"
+    echo "   • Known Quirks"
+    ;;
+esac
+echo ""
