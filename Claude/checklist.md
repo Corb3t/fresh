@@ -3,10 +3,11 @@
 One-time setup to get `new-project` working end-to-end on your Mac mini.
 
 # 1. Put your tools in place
-mkdir -p ~/tools/rules ~/tools/settings
+mkdir -p ~/tools/rules ~/tools/settings ~/tools/commands
 mv scaffold.sh CLAUDE.md ~/tools/
-mv rules/secrets.md rules/frontend.md rules/api.md rules/design-system.md ~/tools/rules/
+mv rules/secrets.md rules/frontend.md rules/api.md rules/design-system.md rules/performance.md ~/tools/rules/
 mv settings/settings.json ~/tools/settings/
+mv commands/*.md ~/tools/commands/
 chmod +x ~/tools/scaffold.sh
 
 # 2. Shell function
@@ -21,10 +22,10 @@ brew install gh && gh auth login
 
 ## 1 · Tools Directory
 
-- [ ] Create the tools directory, rules subdirectory, and settings subdirectory
+- [ ] Create the tools subdirectories
 
   ```bash
-  mkdir -p ~/tools/rules ~/tools/settings
+  mkdir -p ~/tools/rules ~/tools/settings ~/tools/commands
   ```
 - [ ] Move `scaffold.sh` and `CLAUDE.md` into `~/tools/`
 
@@ -32,18 +33,26 @@ brew install gh && gh auth login
   mv ~/Downloads/scaffold.sh ~/tools/scaffold.sh
   mv ~/Downloads/CLAUDE.md ~/tools/CLAUDE.md
   ```
-- [ ] Move the four shared rules files into `~/tools/rules/`
+- [ ] Move the five shared rules files into `~/tools/rules/`
 
   ```bash
   mv ~/Downloads/rules/secrets.md       ~/tools/rules/secrets.md
   mv ~/Downloads/rules/frontend.md      ~/tools/rules/frontend.md
   mv ~/Downloads/rules/api.md           ~/tools/rules/api.md
   mv ~/Downloads/rules/design-system.md ~/tools/rules/design-system.md
+  mv ~/Downloads/rules/performance.md   ~/tools/rules/performance.md
   ```
 - [ ] Move the settings template into `~/tools/settings/`
 
   ```bash
   mv ~/Downloads/settings/settings.json ~/tools/settings/settings.json
+  ```
+- [ ] Move the slash command stubs into `~/tools/commands/`
+
+  ```bash
+  mv ~/Downloads/commands/preflight.md     ~/tools/commands/preflight.md
+  mv ~/Downloads/commands/binding-audit.md ~/tools/commands/binding-audit.md
+  mv ~/Downloads/commands/deploy-check.md  ~/tools/commands/deploy-check.md
   ```
 - [ ] Make the script executable
 
@@ -53,9 +62,10 @@ brew install gh && gh auth login
 - [ ] Verify the tools directory
 
   ```bash
-  ls ~/tools/           # scaffold.sh  CLAUDE.md  rules/  settings/
-  ls ~/tools/rules/     # secrets.md  frontend.md  api.md  design-system.md
+  ls ~/tools/           # scaffold.sh  CLAUDE.md  rules/  settings/  commands/
+  ls ~/tools/rules/     # secrets.md  frontend.md  api.md  design-system.md  performance.md
   ls ~/tools/settings/  # settings.json
+  ls ~/tools/commands/  # preflight.md  binding-audit.md  deploy-check.md
   ```
 
 -----
@@ -206,15 +216,19 @@ Spot-check the output:
 
 ## Quick Reference — Final File Locations
 
-|File                       |Location                            |
-|---------------------------|------------------------------------|
-|`scaffold.sh`              |`~/tools/scaffold.sh`               |
-|`CLAUDE.md`                |`~/tools/CLAUDE.md`                 |
-|`rules/secrets.md`         |`~/tools/rules/secrets.md`          |
-|`rules/frontend.md`        |`~/tools/rules/frontend.md`         |
-|`rules/api.md`             |`~/tools/rules/api.md`              |
-|`rules/design-system.md`   |`~/tools/rules/design-system.md`    |
-|`settings/settings.json`   |`~/tools/settings/settings.json`    |
-|`new-project.zsh`          |Pasted into `~/.zshrc`              |
-|`new-project.raycast.sh`   |`~/raycast-scripts/new-project.sh`  |
-|New projects               |`~/projects/<n>/`                   |
+|File                         |Location                            |
+|-----------------------------|------------------------------------|
+|`scaffold.sh`                |`~/tools/scaffold.sh`               |
+|`CLAUDE.md`                  |`~/tools/CLAUDE.md`                 |
+|`rules/secrets.md`           |`~/tools/rules/secrets.md`          |
+|`rules/frontend.md`          |`~/tools/rules/frontend.md`         |
+|`rules/api.md`               |`~/tools/rules/api.md`              |
+|`rules/design-system.md`     |`~/tools/rules/design-system.md`    |
+|`rules/performance.md`       |`~/tools/rules/performance.md`      |
+|`settings/settings.json`     |`~/tools/settings/settings.json`    |
+|`commands/preflight.md`      |`~/tools/commands/preflight.md`     |
+|`commands/binding-audit.md`  |`~/tools/commands/binding-audit.md` |
+|`commands/deploy-check.md`   |`~/tools/commands/deploy-check.md`  |
+|`new-project.zsh`            |Pasted into `~/.zshrc`              |
+|`new-project.raycast.sh`     |`~/raycast-scripts/new-project.sh`  |
+|New projects                 |`~/projects/<n>/`                   |

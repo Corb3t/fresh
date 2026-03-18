@@ -85,8 +85,10 @@ echo ""
 # ── 3. Directory structure ────────────────────────────────────────────────────
 
 mkdir -p "$PROJECT_NAME/frontend"
-mkdir -p "$PROJECT_NAME/api/src"
 mkdir -p "$PROJECT_NAME/.claude"
+if [ "$TEMPLATE" != "static-site" ]; then
+  mkdir -p "$PROJECT_NAME/api/src"
+fi
 cd "$PROJECT_NAME" || exit
 
 # ── 3.5. Node Version ─────────────────────────────────────────────────────────
@@ -108,12 +110,17 @@ cat << 'HEREDOC' > .gitignore
 dist/
 node_modules/
 .DS_Store
+
+# Claude Code local settings (personal, machine-specific)
+.claude/settings.local.json
 HEREDOC
 
 # ── 5. Generate .env.tpl ─────────────────────────────────────────────────────────
-echo "📄 Generating .env.tpl template..."
 
-cat << 'EOF' > .env.tpl
+if [ "$TEMPLATE" != "static-site" ]; then
+  echo "📄 Generating .env.tpl template..."
+
+  cat << 'EOF' > .env.tpl
 # .env.tpl
 # 🔒 Injected headlessly into Wrangler/Node via 1Password CLI
 # DO NOT place actual secret values in this file. Use op:// URIs.
@@ -128,13 +135,92 @@ ANTHROPIC_API_KEY="op://Homelab/Claude API/credential"
 # 🗄️ Database / Data Layer (Uncomment and update when adding D1/Supabase)
 # DATABASE_URL="op://Homelab/Supabase/url"
 EOF
+fi
 
 # ── 6. wrangler.toml ──────────────────────────────────────────────────────────
 
-# Explicit config prevents Wrangler v3 deprecation warnings and establishes
-# the worker name needed for future D1/KV/R2 bindings.
+# static-site is Pages-only — no Worker, no wrangler.toml needed.
+# All other templates get a wrangler.toml with template-specific stubs.
 
-cat << HEREDOC > wrangler.toml
+if [ "$TEMPLATE" = "static-site" ]; then
+  echo "ℹ️  Static site — skipping wrangler.toml (Pages-only project)"
+else
+
+case "$TEMPLATE" in
+  worker-only)
+    cat << HEREDOC > wrangler.toml
+name = "$PROJECT_NAME"
+main = "api/src/index.js"
+compatibility_date = "$(date +%Y-%m-%d)"
+
+[dev]
+port = 8787
+
+[vars]
+# Add non-secret config vars here
+
+# ── Cron triggers ──────────────────────────────────────────────────────────────
+# Uncomment and configure if this Worker runs on a schedule.
+# Document the schedule in .claude/CLAUDE.md under "Cron Schedule".
+#
+# [triggers]
+# crons = ["0 9 * * 1"]   # Example: 9am UTC every Monday
+
+# ── Storage bindings ───────────────────────────────────────────────────────────
+# Add bindings here AND update the Active Bindings table in .claude/CLAUDE.md first.
+#
+# [[kv_namespaces]]
+# binding = "APP_KV"
+# id      = ""          # wrangler kv:namespace create APP_KV
+#
+# [[d1_databases]]
+# binding  = "DB"
+# database_name = "$PROJECT_NAME-db"
+# database_id   = ""    # wrangler d1 create $PROJECT_NAME-db
+HEREDOC
+    ;;
+
+  data-app)
+    cat << HEREDOC > wrangler.toml
+name = "$PROJECT_NAME-api"
+main = "api/src/index.js"
+compatibility_date = "$(date +%Y-%m-%d)"
+
+[dev]
+port = 8787
+
+[vars]
+# Production frontend URL
+ALLOWED_ORIGIN = "https://$PROJECT_NAME.pages.dev"
+
+# ── D1 Database ────────────────────────────────────────────────────────────────
+# Uncomment after running: wrangler d1 create $PROJECT_NAME-db
+# Document in .claude/rules/schema.md and Active Bindings table before use.
+#
+# [[d1_databases]]
+# binding       = "DB"
+# database_name = "$PROJECT_NAME-db"
+# database_id   = ""    # fill in after wrangler d1 create
+
+# ── KV Namespace ──────────────────────────────────────────────────────────────
+# Uncomment after running: wrangler kv:namespace create APP_KV
+# Document in Active Bindings table before use.
+#
+# [[kv_namespaces]]
+# binding = "APP_KV"
+# id      = ""          # fill in after wrangler kv:namespace create APP_KV
+
+# ── R2 Bucket ─────────────────────────────────────────────────────────────────
+# Uncomment after running: wrangler r2 bucket create $PROJECT_NAME-assets
+#
+# [[r2_buckets]]
+# binding     = "ASSETS"
+# bucket_name = "$PROJECT_NAME-assets"
+HEREDOC
+    ;;
+
+  *)  # fullstack default
+    cat << HEREDOC > wrangler.toml
 name = "$PROJECT_NAME-api"
 main = "api/src/index.js"
 compatibility_date = "$(date +%Y-%m-%d)"
@@ -147,7 +233,23 @@ port = 8787
 ALLOWED_ORIGIN = "https://$PROJECT_NAME.pages.dev"
 # Uncomment if using Cloudflare Pages preview deployments:
 # PAGES_DOMAIN = "$PROJECT_NAME.pages.dev"
+
+# ── Storage bindings ───────────────────────────────────────────────────────────
+# Add bindings here AND update the Active Bindings table in .claude/CLAUDE.md first.
+#
+# [[kv_namespaces]]
+# binding = "APP_KV"
+# id      = ""          # wrangler kv:namespace create APP_KV
+#
+# [[d1_databases]]
+# binding       = "DB"
+# database_name = "$PROJECT_NAME-db"
+# database_id   = ""    # wrangler d1 create $PROJECT_NAME-db
 HEREDOC
+    ;;
+esac
+
+fi
 
 # ── 7. verify_op.sh ───────────────────────────────────────────────────────────
 
@@ -228,6 +330,10 @@ HEREDOC
 
 # ── 9. Cloudflare Worker backend (api/src/index.js) ───────────────────────────
 
+if [ "$TEMPLATE" = "static-site" ]; then
+  echo "ℹ️  Static site — skipping Worker generation"
+else
+
 cat << 'HEREDOC' > api/src/index.js
 /**
  * Cloudflare Worker — API backend
@@ -256,6 +362,24 @@ function corsHeaders(origin, env) {
   };
 }
 
+// Content-Security-Policy — tighten before production deploy.
+// Update script-src and connect-src to match your actual domains.
+// Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+function cspHeader(env) {
+  const apiOrigin = env.ALLOWED_ORIGIN || 'http://localhost:8788';
+  return [
+    "default-src 'none'",
+    "script-src 'self'",
+    "style-src 'self'",
+    "font-src 'self'",
+    "img-src 'self' data:",
+    `connect-src 'self' ${apiOrigin}`,
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join('; ');
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -267,7 +391,11 @@ export default {
 
     if (url.pathname === '/api/health') {
       return new Response(JSON.stringify({ status: 'ok' }), {
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin, env) },
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Security-Policy': cspHeader(env),
+          ...corsHeaders(origin, env),
+        },
       });
     }
 
@@ -276,7 +404,11 @@ export default {
         message: 'Hello from the secure data layer!',
         dbStatus: env.DATABASE_URL ? 'connected' : 'missing',
       }), {
-        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin, env) },
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Security-Policy': cspHeader(env),
+          ...corsHeaders(origin, env),
+        },
       });
     }
 
@@ -288,23 +420,45 @@ export default {
 };
 HEREDOC
 
+fi
+
 # ── 10. Frontend (frontend/index.html) ────────────────────────────────────────
 
-cat << 'HEREDOC' > frontend/index.html
+cat << HEREDOC > frontend/index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Secure Cloudflare app">
-  <title>App</title>
+  <meta name="description" content="$PROJECT_DESC">
+
+  <!-- Open Graph / Social sharing -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="$PROJECT_NAME">
+  <meta property="og:description" content="$PROJECT_DESC">
+  <meta property="og:url"         content="https://$PROJECT_NAME.pages.dev">
+  <meta property="og:image"       content="https://$PROJECT_NAME.pages.dev/og.png">
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="$PROJECT_NAME">
+  <meta name="twitter:description" content="$PROJECT_DESC">
+  <meta name="twitter:image"       content="https://$PROJECT_NAME.pages.dev/og.png">
+
+  <title>$PROJECT_NAME</title>
+
+  <!-- Preconnect to API Worker (reduces TTFB on first fetch) -->
+  <!-- Update this domain after first deploy -->
+  <link rel="preconnect" href="https://$PROJECT_NAME-api.workers.dev">
+  <link rel="dns-prefetch" href="https://$PROJECT_NAME-api.workers.dev">
+
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <main id="main-content">
-    <h1>Secure Cloudflare App</h1>
+    <h1>$PROJECT_NAME</h1>
     <p id="api-status" aria-live="polite">Loading...</p>
   </main>
 
@@ -440,27 +594,47 @@ case "$TEMPLATE" in
     [ -f "$RULES_SRC/frontend.md"      ] && ln -sf "$RULES_SRC/frontend.md"       .claude/rules/frontend.md
     [ -f "$RULES_SRC/api.md"           ] && ln -sf "$RULES_SRC/api.md"            .claude/rules/api.md
     [ -f "$RULES_SRC/design-system.md" ] && ln -sf "$RULES_SRC/design-system.md"  .claude/rules/design-system.md
+    [ -f "$RULES_SRC/performance.md"   ] && ln -sf "$RULES_SRC/performance.md"    .claude/rules/performance.md
     ;;
   worker-only)
     [ -f "$RULES_SRC/secrets.md"  ] && ln -sf "$RULES_SRC/secrets.md"  .claude/rules/secrets.md
     [ -f "$RULES_SRC/api.md"      ] && ln -sf "$RULES_SRC/api.md"      .claude/rules/api.md
     ;;
   static-site)
-    # No secrets needed — static-site has no Worker, no .env.tpl
     [ -f "$RULES_SRC/frontend.md"      ] && ln -sf "$RULES_SRC/frontend.md"       .claude/rules/frontend.md
     [ -f "$RULES_SRC/design-system.md" ] && ln -sf "$RULES_SRC/design-system.md"  .claude/rules/design-system.md
+    [ -f "$RULES_SRC/performance.md"   ] && ln -sf "$RULES_SRC/performance.md"    .claude/rules/performance.md
     ;;
   data-app)
     [ -f "$RULES_SRC/secrets.md"       ] && ln -sf "$RULES_SRC/secrets.md"        .claude/rules/secrets.md
     [ -f "$RULES_SRC/frontend.md"      ] && ln -sf "$RULES_SRC/frontend.md"       .claude/rules/frontend.md
     [ -f "$RULES_SRC/api.md"           ] && ln -sf "$RULES_SRC/api.md"            .claude/rules/api.md
     [ -f "$RULES_SRC/design-system.md" ] && ln -sf "$RULES_SRC/design-system.md"  .claude/rules/design-system.md
+    [ -f "$RULES_SRC/performance.md"   ] && ln -sf "$RULES_SRC/performance.md"    .claude/rules/performance.md
     # data-app gets project-local stubs — these are committed, not symlinked
     DATA_APP_RULES="$SCRIPT_DIR/templates/data-app/.claude/rules"
     cp "$DATA_APP_RULES/schema.md" .claude/rules/schema.md
     cp "$DATA_APP_RULES/auth.md"   .claude/rules/auth.md
     ;;
 esac
+
+# ── Slash commands ────────────────────────────────────────────────────────────
+COMMANDS_SRC="$SCRIPT_DIR/commands"
+if [ -d "$COMMANDS_SRC" ]; then
+  mkdir -p .claude/commands
+  for cmd in "$COMMANDS_SRC"/*.md; do
+    [ -f "$cmd" ] && cp "$cmd" ".claude/commands/$(basename "$cmd")"
+  done
+  echo "⚡ Slash commands installed (.claude/commands/)"
+else
+  echo "⚠️  commands/ not found at $COMMANDS_SRC — skipping slash commands."
+fi
+
+# ── settings.local.json stub (gitignored — personal overrides) ────────────────
+cat << 'LOCALEOF' > .claude/settings.local.json
+{}
+LOCALEOF
+echo "🔧 settings.local.json stub created (gitignored — add personal overrides here)"
 
 # ── 13b. .claude/settings.json — permissions + PostToolUse hooks ─────────────
 
@@ -558,38 +732,50 @@ echo "✅ $PROJECT_NAME is ready. ($TEMPLATE)"
 echo ""
 echo "📁 Structure:"
 echo "   $PROJECT_NAME/"
-echo "   ├── frontend/         Cloudflare Pages (HTML, CSS, JS)"
-echo "   ├── api/src/          Cloudflare Worker"
+echo "   ├── frontend/           Cloudflare Pages (HTML, CSS, JS)"
+if [ "$TEMPLATE" != "static-site" ]; then
+  echo "   ├── api/src/            Cloudflare Worker"
+fi
 echo "   ├── .claude/"
-echo "   │   ├── CLAUDE.md       Project context ($TEMPLATE template)"
-echo "   │   ├── settings.json   Permissions + PostToolUse hooks"
-echo "   │   └── rules/          Auto-loaded rules"
-echo "   │       ├── secrets.md → ~/tools/rules/secrets.md (symlink)"
+echo "   │   ├── CLAUDE.md           Project context ($TEMPLATE template)"
+echo "   │   ├── settings.json       Permissions + PostToolUse hooks"
+echo "   │   ├── settings.local.json Personal overrides (gitignored)"
+echo "   │   ├── commands/"
+echo "   │   │   ├── preflight.md"
+echo "   │   │   ├── binding-audit.md"
+echo "   │   │   └── deploy-check.md"
+echo "   │   └── rules/"
 
 case "$TEMPLATE" in
   fullstack|data-app)
-    echo "   │       ├── frontend.md      → ~/tools/rules/frontend.md (symlink)"
-    echo "   │       ├── api.md           → ~/tools/rules/api.md (symlink)"
-    echo "   │       └── design-system.md → ~/tools/rules/design-system.md (symlink)"
+    echo "   │       ├── secrets.md       → ~/tools/rules/ (symlink)"
+    echo "   │       ├── frontend.md      → ~/tools/rules/ (symlink)"
+    echo "   │       ├── api.md           → ~/tools/rules/ (symlink)"
+    echo "   │       ├── design-system.md → ~/tools/rules/ (symlink)"
+    echo "   │       └── performance.md   → ~/tools/rules/ (symlink)"
     if [ "$TEMPLATE" = "data-app" ]; then
-      echo "   │       ├── auth.md          (project-local stub — fill in before first route)"
-      echo "   │       └── schema.md        (project-local stub — keep current with migrations)"
+      echo "   │       ├── auth.md          (project-local stub)"
+      echo "   │       └── schema.md        (project-local stub)"
     fi
     ;;
   worker-only)
-    echo "   │       └── api.md → ~/tools/rules/api.md (symlink)"
+    echo "   │       ├── secrets.md → ~/tools/rules/ (symlink)"
+    echo "   │       └── api.md     → ~/tools/rules/ (symlink)"
     ;;
   static-site)
-    echo "   │       ├── frontend.md      → ~/tools/rules/frontend.md (symlink)"
-    echo "   │       └── design-system.md → ~/tools/rules/design-system.md (symlink)"
+    echo "   │       ├── frontend.md      → ~/tools/rules/ (symlink)"
+    echo "   │       ├── design-system.md → ~/tools/rules/ (symlink)"
+    echo "   │       └── performance.md   → ~/tools/rules/ (symlink)"
     ;;
 esac
 
-echo "   ├── wrangler.toml     Worker config"
-echo "   ├── .env.tpl          Secret references (op:// — safe to commit)"
-echo "   ├── .eslintrc.json    ESLint config"
-echo "   ├── .husky/           Pre-commit hooks"
-echo "   └── verify_op.sh      1Password preflight check"
+if [ "$TEMPLATE" != "static-site" ]; then
+  echo "   ├── wrangler.toml       Worker config"
+  echo "   ├── .env.tpl            Secret references (op:// — safe to commit)"
+fi
+echo "   ├── .eslintrc.json      ESLint config"
+echo "   ├── .husky/             Pre-commit hooks"
+echo "   └── verify_op.sh        1Password preflight check"
 echo ""
 echo "➡️  Next steps:"
 echo ""

@@ -6,7 +6,7 @@ You are an elite, autonomous software engineer operating a headless/remote Mac w
 You write clean, performant, and highly secure code within a Git-backed environment — main is always deployable, feature branches for anything non-trivial.
 You are direct, concise, and never AI-sounding. You match the energy and style of the codebase you're working in.
 
-> **Rules in effect:** `secrets.md` (unconditional) · `frontend.md` (frontend/**) · `api.md` (api/src/**) · `design-system.md` (frontend/**)
+> **Rules in effect:** `secrets.md` (unconditional) · `frontend.md` (frontend/**) · `api.md` (api/src/**) · `design-system.md` (frontend/**) · `performance.md` (frontend/**)
 > These load automatically via `.claude/rules/` — do not repeat their contents here.
 
 -----
@@ -76,6 +76,33 @@ Decoupled monorepo deployed on Cloudflare.
 - Never suggest a deploy without running tests first.
 - Deploy scripts in `package.json` include a confirmation prompt — do not bypass them.
 - Verify Lighthouse performance score after any UI change. Target: 90+ & LCP < 2.5s.
+
+-----
+
+## 🧠 Auto-Memory Strategy
+
+Claude Code writes discoveries to auto-memory automatically. Guide what gets written and when.
+
+### Write to auto-memory immediately:
+- Wrangler version incompatibilities or CLI quirks discovered mid-session
+- D1/KV/R2 binding gotchas (consistency windows, size limits, unexpected behavior)
+- CORS edge cases that took effort to resolve
+- Any `op://` reference path that needed correction
+- Port conflicts or local dev environment quirks
+- A pattern that works well and should be repeated in this project
+
+### Promote to permanent files when:
+A discovery survives **two sessions** — move it out of auto-memory and into the appropriate permanent home:
+- Project behavior / gotchas → `## Known Quirks` in `.claude/CLAUDE.md`
+- Auth or schema insight → `.claude/rules/auth.md` or `.claude/rules/schema.md`
+- Cross-project pattern → the relevant shared rule in `~/tools/rules/`
+
+Auto-memory is a scratchpad, not an archive. Promote what matters; let the rest age out.
+
+### Never write to auto-memory:
+- Secrets, tokens, credentials, or `op://` reference values
+- Temporary debugging notes or one-off workarounds
+- Anything that belongs in a committed file
 
 -----
 
