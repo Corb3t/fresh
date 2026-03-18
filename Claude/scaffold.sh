@@ -410,14 +410,54 @@ async function init() {
 init();
 HEREDOC
 
-# ── 13. .claude/CLAUDE.md (project-level AI context) ─────────────────────────
+# ── 13. .claude/ context — project CLAUDE.md + rules symlinks ────────────────
 
-# Copies the selected project-type template into .claude/CLAUDE.md.
-# The global ~/.claude/CLAUDE.md (your universal rules) is loaded automatically
-# by Claude Code — it does not need to be copied into the project.
-# Edit ~/tools/templates/<type>/.claude/CLAUDE.md to update the template.
+# The global ~/.claude/CLAUDE.md is auto-loaded by Claude Code.
+# Project-level CLAUDE.md provides project-specific context only.
+# Rules in .claude/rules/ load automatically:
+#   - Unconditional rules: every session
+#   - Path-scoped rules: only when Claude touches matching files
 
 cp "$TEMPLATE_SRC" .claude/CLAUDE.md
+
+echo "🔗 Wiring .claude/rules/ symlinks…"
+mkdir -p .claude/rules
+
+RULES_SRC="$SCRIPT_DIR/rules"
+
+# Verify shared rules exist before symlinking
+for rule in secrets.md frontend.md api.md; do
+  if [ ! -f "$RULES_SRC/$rule" ]; then
+    echo "⚠️  Warning: $RULES_SRC/$rule not found — skipping symlink."
+    echo "   Run the setup checklist to install shared rules into ~/tools/rules/"
+  fi
+done
+
+# Symlink matrix — keyed to project type
+case "$TEMPLATE" in
+  fullstack)
+    [ -f "$RULES_SRC/secrets.md"  ] && ln -sf "$RULES_SRC/secrets.md"  .claude/rules/secrets.md
+    [ -f "$RULES_SRC/frontend.md" ] && ln -sf "$RULES_SRC/frontend.md" .claude/rules/frontend.md
+    [ -f "$RULES_SRC/api.md"      ] && ln -sf "$RULES_SRC/api.md"      .claude/rules/api.md
+    ;;
+  worker-only)
+    [ -f "$RULES_SRC/secrets.md"  ] && ln -sf "$RULES_SRC/secrets.md"  .claude/rules/secrets.md
+    [ -f "$RULES_SRC/api.md"      ] && ln -sf "$RULES_SRC/api.md"      .claude/rules/api.md
+    ;;
+  static-site)
+    # No secrets needed — static-site has no Worker, no .env.tpl
+    [ -f "$RULES_SRC/frontend.md" ] && ln -sf "$RULES_SRC/frontend.md" .claude/rules/frontend.md
+    ;;
+  data-app)
+    [ -f "$RULES_SRC/secrets.md"  ] && ln -sf "$RULES_SRC/secrets.md"  .claude/rules/secrets.md
+    [ -f "$RULES_SRC/frontend.md" ] && ln -sf "$RULES_SRC/frontend.md" .claude/rules/frontend.md
+    [ -f "$RULES_SRC/api.md"      ] && ln -sf "$RULES_SRC/api.md"      .claude/rules/api.md
+    # data-app gets project-local stubs — these are committed, not symlinked
+    DATA_APP_RULES="$SCRIPT_DIR/templates/data-app/.claude/rules"
+    cp "$DATA_APP_RULES/schema.md" .claude/rules/schema.md
+    cp "$DATA_APP_RULES/auth.md"   .claude/rules/auth.md
+    ;;
+esac
 
 # Substitute known values into the project CLAUDE.md.
 # Uses python3 to safely handle special characters in user-provided input
@@ -505,8 +545,28 @@ echo "📁 Structure:"
 echo "   $PROJECT_NAME/"
 echo "   ├── frontend/         Cloudflare Pages (HTML, CSS, JS)"
 echo "   ├── api/src/          Cloudflare Worker"
-echo "   ├── .claude/          Claude Code context"
-echo "   │   └── CLAUDE.md     Project-level prompt ($TEMPLATE template)"
+echo "   ├── .claude/"
+echo "   │   ├── CLAUDE.md     Project context ($TEMPLATE template)"
+echo "   │   └── rules/        Auto-loaded rules"
+echo "   │       ├── secrets.md → ~/tools/rules/secrets.md (symlink)"
+
+case "$TEMPLATE" in
+  fullstack|data-app)
+    echo "   │       ├── frontend.md → ~/tools/rules/frontend.md (symlink)"
+    echo "   │       └── api.md      → ~/tools/rules/api.md (symlink)"
+    if [ "$TEMPLATE" = "data-app" ]; then
+      echo "   │       ├── auth.md     (project-local stub — fill in before first route)"
+      echo "   │       └── schema.md   (project-local stub — keep current with migrations)"
+    fi
+    ;;
+  worker-only)
+    echo "   │       └── api.md      → ~/tools/rules/api.md (symlink)"
+    ;;
+  static-site)
+    echo "   │       └── frontend.md → ~/tools/rules/frontend.md (symlink)"
+    ;;
+esac
+
 echo "   ├── wrangler.toml     Worker config"
 echo "   ├── .env.tpl          Secret references (op:// — safe to commit)"
 echo "   ├── .eslintrc.json    ESLint config"

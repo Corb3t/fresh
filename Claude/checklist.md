@@ -3,8 +3,9 @@
 One-time setup to get `new-project` working end-to-end on your Mac mini.
 
 # 1. Put your tools in place
-mkdir -p ~/tools
+mkdir -p ~/tools/rules
 mv scaffold.sh CLAUDE.md ~/tools/
+mv rules/secrets.md rules/frontend.md rules/api.md ~/tools/rules/
 chmod +x ~/tools/scaffold.sh
 
 # 2. Shell function
@@ -19,27 +20,34 @@ brew install gh && gh auth login
 
 ## 1 · Tools Directory
 
-- [ ] Create the tools directory
-  
+- [ ] Create the tools directory and rules subdirectory
+
   ```bash
-  mkdir -p ~/tools
+  mkdir -p ~/tools/rules
   ```
-- [ ] Move `scaffold.sh` and `CLAUDE.md` into it — these two files must always live together
-  
+- [ ] Move `scaffold.sh` and `CLAUDE.md` into `~/tools/`
+
   ```bash
   mv ~/Downloads/scaffold.sh ~/tools/scaffold.sh
   mv ~/Downloads/CLAUDE.md ~/tools/CLAUDE.md
   ```
+- [ ] Move the three shared rules files into `~/tools/rules/`
+
+  ```bash
+  mv ~/Downloads/rules/secrets.md  ~/tools/rules/secrets.md
+  mv ~/Downloads/rules/frontend.md ~/tools/rules/frontend.md
+  mv ~/Downloads/rules/api.md      ~/tools/rules/api.md
+  ```
 - [ ] Make the script executable
-  
+
   ```bash
   chmod +x ~/tools/scaffold.sh
   ```
-- [ ] Verify the directory contains exactly two files
-  
+- [ ] Verify the tools directory
+
   ```bash
-  ls ~/tools/
-  # scaffold.sh  CLAUDE.md
+  ls ~/tools/        # scaffold.sh  CLAUDE.md  rules/
+  ls ~/tools/rules/  # secrets.md  frontend.md  api.md
   ```
 
 -----
@@ -194,7 +202,9 @@ Spot-check the output:
 |------------------------|----------------------------------|
 |`scaffold.sh`           |`~/tools/scaffold.sh`             |
 |`CLAUDE.md`             |`~/tools/CLAUDE.md`               |
+|`rules/secrets.md`      |`~/tools/rules/secrets.md`        |
+|`rules/frontend.md`     |`~/tools/rules/frontend.md`       |
+|`rules/api.md`          |`~/tools/rules/api.md`            |
 |`new-project.zsh`       |Pasted into `~/.zshrc`            |
 |`new-project.raycast.sh`|`~/raycast-scripts/new-project.sh`|
 |New projects            |`~/projects/<name>/`              |
-
