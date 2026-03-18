@@ -3,9 +3,10 @@
 One-time setup to get `new-project` working end-to-end on your Mac mini.
 
 # 1. Put your tools in place
-mkdir -p ~/tools/rules
+mkdir -p ~/tools/rules ~/tools/settings
 mv scaffold.sh CLAUDE.md ~/tools/
-mv rules/secrets.md rules/frontend.md rules/api.md ~/tools/rules/
+mv rules/secrets.md rules/frontend.md rules/api.md rules/design-system.md ~/tools/rules/
+mv settings/settings.json ~/tools/settings/
 chmod +x ~/tools/scaffold.sh
 
 # 2. Shell function
@@ -20,10 +21,10 @@ brew install gh && gh auth login
 
 ## 1 · Tools Directory
 
-- [ ] Create the tools directory and rules subdirectory
+- [ ] Create the tools directory, rules subdirectory, and settings subdirectory
 
   ```bash
-  mkdir -p ~/tools/rules
+  mkdir -p ~/tools/rules ~/tools/settings
   ```
 - [ ] Move `scaffold.sh` and `CLAUDE.md` into `~/tools/`
 
@@ -31,12 +32,18 @@ brew install gh && gh auth login
   mv ~/Downloads/scaffold.sh ~/tools/scaffold.sh
   mv ~/Downloads/CLAUDE.md ~/tools/CLAUDE.md
   ```
-- [ ] Move the three shared rules files into `~/tools/rules/`
+- [ ] Move the four shared rules files into `~/tools/rules/`
 
   ```bash
-  mv ~/Downloads/rules/secrets.md  ~/tools/rules/secrets.md
-  mv ~/Downloads/rules/frontend.md ~/tools/rules/frontend.md
-  mv ~/Downloads/rules/api.md      ~/tools/rules/api.md
+  mv ~/Downloads/rules/secrets.md       ~/tools/rules/secrets.md
+  mv ~/Downloads/rules/frontend.md      ~/tools/rules/frontend.md
+  mv ~/Downloads/rules/api.md           ~/tools/rules/api.md
+  mv ~/Downloads/rules/design-system.md ~/tools/rules/design-system.md
+  ```
+- [ ] Move the settings template into `~/tools/settings/`
+
+  ```bash
+  mv ~/Downloads/settings/settings.json ~/tools/settings/settings.json
   ```
 - [ ] Make the script executable
 
@@ -46,8 +53,9 @@ brew install gh && gh auth login
 - [ ] Verify the tools directory
 
   ```bash
-  ls ~/tools/        # scaffold.sh  CLAUDE.md  rules/
-  ls ~/tools/rules/  # secrets.md  frontend.md  api.md
+  ls ~/tools/           # scaffold.sh  CLAUDE.md  rules/  settings/
+  ls ~/tools/rules/     # secrets.md  frontend.md  api.md  design-system.md
+  ls ~/tools/settings/  # settings.json
   ```
 
 -----
@@ -198,13 +206,15 @@ Spot-check the output:
 
 ## Quick Reference — Final File Locations
 
-|File                    |Location                          |
-|------------------------|----------------------------------|
-|`scaffold.sh`           |`~/tools/scaffold.sh`             |
-|`CLAUDE.md`             |`~/tools/CLAUDE.md`               |
-|`rules/secrets.md`      |`~/tools/rules/secrets.md`        |
-|`rules/frontend.md`     |`~/tools/rules/frontend.md`       |
-|`rules/api.md`          |`~/tools/rules/api.md`            |
-|`new-project.zsh`       |Pasted into `~/.zshrc`            |
-|`new-project.raycast.sh`|`~/raycast-scripts/new-project.sh`|
-|New projects            |`~/projects/<name>/`              |
+|File                       |Location                            |
+|---------------------------|------------------------------------|
+|`scaffold.sh`              |`~/tools/scaffold.sh`               |
+|`CLAUDE.md`                |`~/tools/CLAUDE.md`                 |
+|`rules/secrets.md`         |`~/tools/rules/secrets.md`          |
+|`rules/frontend.md`        |`~/tools/rules/frontend.md`         |
+|`rules/api.md`             |`~/tools/rules/api.md`              |
+|`rules/design-system.md`   |`~/tools/rules/design-system.md`    |
+|`settings/settings.json`   |`~/tools/settings/settings.json`    |
+|`new-project.zsh`          |Pasted into `~/.zshrc`              |
+|`new-project.raycast.sh`   |`~/raycast-scripts/new-project.sh`  |
+|New projects               |`~/projects/<n>/`                   |

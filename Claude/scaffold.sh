@@ -436,9 +436,10 @@ done
 # Symlink matrix — keyed to project type
 case "$TEMPLATE" in
   fullstack)
-    [ -f "$RULES_SRC/secrets.md"  ] && ln -sf "$RULES_SRC/secrets.md"  .claude/rules/secrets.md
-    [ -f "$RULES_SRC/frontend.md" ] && ln -sf "$RULES_SRC/frontend.md" .claude/rules/frontend.md
-    [ -f "$RULES_SRC/api.md"      ] && ln -sf "$RULES_SRC/api.md"      .claude/rules/api.md
+    [ -f "$RULES_SRC/secrets.md"       ] && ln -sf "$RULES_SRC/secrets.md"        .claude/rules/secrets.md
+    [ -f "$RULES_SRC/frontend.md"      ] && ln -sf "$RULES_SRC/frontend.md"       .claude/rules/frontend.md
+    [ -f "$RULES_SRC/api.md"           ] && ln -sf "$RULES_SRC/api.md"            .claude/rules/api.md
+    [ -f "$RULES_SRC/design-system.md" ] && ln -sf "$RULES_SRC/design-system.md"  .claude/rules/design-system.md
     ;;
   worker-only)
     [ -f "$RULES_SRC/secrets.md"  ] && ln -sf "$RULES_SRC/secrets.md"  .claude/rules/secrets.md
@@ -446,18 +447,32 @@ case "$TEMPLATE" in
     ;;
   static-site)
     # No secrets needed — static-site has no Worker, no .env.tpl
-    [ -f "$RULES_SRC/frontend.md" ] && ln -sf "$RULES_SRC/frontend.md" .claude/rules/frontend.md
+    [ -f "$RULES_SRC/frontend.md"      ] && ln -sf "$RULES_SRC/frontend.md"       .claude/rules/frontend.md
+    [ -f "$RULES_SRC/design-system.md" ] && ln -sf "$RULES_SRC/design-system.md"  .claude/rules/design-system.md
     ;;
   data-app)
-    [ -f "$RULES_SRC/secrets.md"  ] && ln -sf "$RULES_SRC/secrets.md"  .claude/rules/secrets.md
-    [ -f "$RULES_SRC/frontend.md" ] && ln -sf "$RULES_SRC/frontend.md" .claude/rules/frontend.md
-    [ -f "$RULES_SRC/api.md"      ] && ln -sf "$RULES_SRC/api.md"      .claude/rules/api.md
+    [ -f "$RULES_SRC/secrets.md"       ] && ln -sf "$RULES_SRC/secrets.md"        .claude/rules/secrets.md
+    [ -f "$RULES_SRC/frontend.md"      ] && ln -sf "$RULES_SRC/frontend.md"       .claude/rules/frontend.md
+    [ -f "$RULES_SRC/api.md"           ] && ln -sf "$RULES_SRC/api.md"            .claude/rules/api.md
+    [ -f "$RULES_SRC/design-system.md" ] && ln -sf "$RULES_SRC/design-system.md"  .claude/rules/design-system.md
     # data-app gets project-local stubs — these are committed, not symlinked
     DATA_APP_RULES="$SCRIPT_DIR/templates/data-app/.claude/rules"
     cp "$DATA_APP_RULES/schema.md" .claude/rules/schema.md
     cp "$DATA_APP_RULES/auth.md"   .claude/rules/auth.md
     ;;
 esac
+
+# ── 13b. .claude/settings.json — permissions + PostToolUse hooks ─────────────
+
+SETTINGS_SRC="$SCRIPT_DIR/settings/settings.json"
+
+if [ -f "$SETTINGS_SRC" ]; then
+  cp "$SETTINGS_SRC" .claude/settings.json
+  echo "⚙️  Claude Code permissions and hooks wired (.claude/settings.json)"
+else
+  echo "⚠️  settings/settings.json not found at $SETTINGS_SRC — skipping."
+  echo "   Run the setup checklist to install settings into ~/tools/settings/"
+fi
 
 # Substitute known values into the project CLAUDE.md.
 # Uses python3 to safely handle special characters in user-provided input
@@ -546,24 +561,27 @@ echo "   $PROJECT_NAME/"
 echo "   ├── frontend/         Cloudflare Pages (HTML, CSS, JS)"
 echo "   ├── api/src/          Cloudflare Worker"
 echo "   ├── .claude/"
-echo "   │   ├── CLAUDE.md     Project context ($TEMPLATE template)"
-echo "   │   └── rules/        Auto-loaded rules"
+echo "   │   ├── CLAUDE.md       Project context ($TEMPLATE template)"
+echo "   │   ├── settings.json   Permissions + PostToolUse hooks"
+echo "   │   └── rules/          Auto-loaded rules"
 echo "   │       ├── secrets.md → ~/tools/rules/secrets.md (symlink)"
 
 case "$TEMPLATE" in
   fullstack|data-app)
-    echo "   │       ├── frontend.md → ~/tools/rules/frontend.md (symlink)"
-    echo "   │       └── api.md      → ~/tools/rules/api.md (symlink)"
+    echo "   │       ├── frontend.md      → ~/tools/rules/frontend.md (symlink)"
+    echo "   │       ├── api.md           → ~/tools/rules/api.md (symlink)"
+    echo "   │       └── design-system.md → ~/tools/rules/design-system.md (symlink)"
     if [ "$TEMPLATE" = "data-app" ]; then
-      echo "   │       ├── auth.md     (project-local stub — fill in before first route)"
-      echo "   │       └── schema.md   (project-local stub — keep current with migrations)"
+      echo "   │       ├── auth.md          (project-local stub — fill in before first route)"
+      echo "   │       └── schema.md        (project-local stub — keep current with migrations)"
     fi
     ;;
   worker-only)
-    echo "   │       └── api.md      → ~/tools/rules/api.md (symlink)"
+    echo "   │       └── api.md → ~/tools/rules/api.md (symlink)"
     ;;
   static-site)
-    echo "   │       └── frontend.md → ~/tools/rules/frontend.md (symlink)"
+    echo "   │       ├── frontend.md      → ~/tools/rules/frontend.md (symlink)"
+    echo "   │       └── design-system.md → ~/tools/rules/design-system.md (symlink)"
     ;;
 esac
 
