@@ -57,6 +57,20 @@
 
 ---
 
+## Subagent Patterns
+
+Static sites benefit most from subagents during **multi-page audits and parallel page generation** — the absence of a backend means there's no state to coordinate across.
+
+**Good candidates for subagents:**
+- Parallel a11y audits — one subagent per page, all independent (contrast ratios, skip links, focus styles, alt text)
+- CSS token consistency check — subagent scans all stylesheets and reports any values that aren't using `var(--...)` references
+- Role-targeted page stubs (e.g., `/pm`, `/ux`, `/ba`) — fan out one subagent per page when the structure is identical and only the content differs
+- Third-party script inventory — subagent reads all HTML files and reports every external domain loaded (needed for CSP header generation)
+
+**Keep on primary:** design system changes (CSS custom properties, font decisions), navigation architecture, any page that deviates from the standard structure. Creative direction requires full context.
+
+---
+
 ## Known Quirks
 
 *(Anything Claude should know before touching this codebase.)*

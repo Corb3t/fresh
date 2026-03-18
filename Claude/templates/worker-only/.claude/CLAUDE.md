@@ -56,6 +56,19 @@ crons = ["0 9 * * 1"]  # Example: 9am UTC every Monday
 
 ---
 
+## Subagent Patterns
+
+Worker-only projects are usually **single-agent territory** — the code surface is small and highly sequential. Subagents only pay off here when the scope expands.
+
+**Good candidates for subagents:**
+- Reading and summarizing external API docs or webhook payload schemas before writing handler code
+- Parallel generation of multiple route handlers when they provably share no state
+- Read-only audit: validating that all bindings in the code match the active binding table in this file
+
+**Keep on primary:** cron trigger logic, error handling paths, any D1 query that touches multiple tables, anything that determines whether a side effect fires. These jobs often have no retry — a mistake is a missed webhook or a duplicate write.
+
+---
+
 ## Known Quirks
 
 *(Timeouts, CPU limits, quirky external APIs, etc.)*

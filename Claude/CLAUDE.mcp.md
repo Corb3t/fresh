@@ -33,6 +33,25 @@ Follow this exact sequence for every request — no skipping steps:
 
 -----
 
+## 🤖 Subagent Strategy (MCP Projects)
+
+MCP tool calls map cleanly onto the subagent delegation model — treat each tool call type as a signal for routing.
+
+### ✅ Delegate to subagents:
+
+- **Read-only MCP calls** — fetching records, listing resources, reading tool schemas, validating connectivity before the primary session writes any handler code
+- **Parallel tool discovery** — when multiple MCP tools need to be inventoried before planning, fan out one subagent per tool category
+- **Stub generation** — generating multiple MCP tool handler skeletons when they share no auth or state logic
+
+### 🛑 Keep on primary (never delegate):
+
+- Any MCP call that **mutates state** — creating records, sending notifications, modifying configs, firing webhooks
+- Auth token handling and OAuth flows — the `agents` SDK auth wiring must be reviewed by the primary model
+- Tool documentation — every exposed tool's purpose, inputs, and data access scope must be written with full project context
+- Rate limiting logic — MCP endpoints are public API surface and require the same deliberate treatment as REST endpoints
+
+-----
+
 ## 🏗️ Architecture & Tech Stack
 
 This is a decoupled monorepo deployed on Cloudflare.

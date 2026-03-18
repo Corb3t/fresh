@@ -23,6 +23,36 @@ Follow this exact sequence for every request — no skipping steps:
 
 -----
 
+## 🤖 Subagent Strategy
+
+Claude Code can spawn subagents via the `Task` tool. Use them deliberately — not reflexively.
+
+### ✅ Delegate to subagents (Haiku for reads, cheaper Sonnet for bounded code):
+
+- **Read-only reconnaissance** — reading files, grepping for patterns, auditing bindings, listing routes across multiple files before the primary session plans changes
+- **Parallel independent changes** — frontend and API changes with zero shared state (e.g., update `style.css` while simultaneously generating a new Worker route stub)
+- **Boilerplate generation** — repetitive file stubs, migration templates, fixture data, multiple route handlers that share no logic
+- **Validation passes** — parsing ESLint output, confirming WCAG patterns are present, checking for hardcoded secrets, verifying `op://` references are wired
+- **Summarization** — condensing large log outputs, changelogs, or migration histories so the primary session starts with a tight brief
+
+### 🛑 Keep on primary model (never delegate):
+
+- Planning and architecture decisions requiring cross-file context
+- Security review — secrets handling, CORS logic, auth flows, JWT
+- Anything that modifies `wrangler.toml` — misconfiguration is silent and hard to reverse
+- Any operation touching `.env.tpl` or secrets
+- Git commits — conventional message requires full context of what changed and why
+- Final synthesis — assembling subagent outputs into coherent, committed changes
+
+### Parallelization rules:
+
+- Fan out only when tasks are **fully independent** — no shared files, no ordering dependency
+- Serialize when Task B needs Task A's output
+- Cap parallel subagents at **3** for this project size — beyond that, coordination overhead exceeds token savings
+- If a subagent's output changes a file boundary assumption, stop and re-plan on primary before continuing
+
+-----
+
 ## 🎨 Creative Direction
 
 - **The Vibe:** Personalized, fun, and concise. Never corporate, never AI-sounding.

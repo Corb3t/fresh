@@ -47,6 +47,19 @@ Document every binding here before adding it to `wrangler.toml`.
 
 ---
 
+## Subagent Patterns
+
+`fullstack` projects have the cleanest subagent split — frontend and API are genuinely independent.
+
+**Good candidates for parallel subagents:**
+- Subagent A reads/edits `/frontend` — Subagent B reads/edits `/api/src` — no shared state, fan out freely
+- Parallel a11y audit across all frontend pages while API route stubs are being generated
+- Boilerplate: generate multiple Worker route handlers simultaneously when they share no logic
+
+**Keep on primary:** anything crossing the frontend/API boundary (data contracts, fetch call signatures, CORS config, `wrangler.toml` bindings). If Subagent A's output changes the shape of an API response, stop and re-plan before Subagent B writes the fetch call that consumes it.
+
+---
+
 ## Known Quirks
 
 *(Add project-specific gotchas here as you discover them.)*

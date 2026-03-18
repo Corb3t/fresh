@@ -77,6 +77,20 @@ CREATE TABLE users (
 
 ---
 
+## Subagent Patterns
+
+`data-app` projects have the most to gain from subagent parallelization — and the most to lose from subagent mistakes. The database schema is load-bearing; delegate reads freely, delegate writes carefully.
+
+**Good candidates for subagents:**
+- **Schema reconnaissance** — one subagent reads migration history, another reads the current route table; primary synthesizes before planning any schema change
+- **Parallel route stub generation** — when adding multiple independent API endpoints that share only auth middleware, fan out
+- **Read-only schema audit** — subagent validates that every D1 query in the codebase references columns that exist in the schema defined above
+- **Fixture/seed data generation** — parallelizable boilerplate with no side effects
+
+**Keep on primary:** schema migrations (sequential, irreversible), auth flow changes, any query joining multiple tables, JWT signing/validation logic, and anything that determines what data a user is allowed to see. Data access control bugs are silent in tests and catastrophic in production.
+
+---
+
 ## Known Quirks
 
 *(D1 gotchas, KV consistency notes, auth edge cases — document them here.)*
