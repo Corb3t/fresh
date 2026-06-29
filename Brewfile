@@ -37,6 +37,8 @@ cask "orbstack"                # Lightning-fast, lightweight Docker Desktop alte
 cask "nova"                    # Panic's beautifully designed native macOS code editor
 cask "github"                  # GitHub Desktop GUI
 brew "mas"                     # Mac App Store CLI installer for a fully complete Brewfile
+brew "tg-pro"                  # Temperature monitoring, fan control and diagnostics
+
 
 # ==============================================================================
 # AI & LLM TOOLS
