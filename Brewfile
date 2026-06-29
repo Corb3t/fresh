@@ -81,7 +81,7 @@ cask "bettertouchtool"         # Deep customization for trackpad gestures and sh
 cask "betterdisplay"           # Display management and virtual-monitor utility
 cask "bettermouse"             # Smooths and customizes third-party mouse behavior
 cask "swish"                   # Trackpad gesture-based window management
-cask "jordanbaird-ice"         # Open-source menu bar manager (replaces Bartender)
+cask "thaw@beta"               # Open-source menu bar manager (replaces Bartender)
 cask "karabiner-elements"      # Deep, low-level keyboard remapper
 
 # ==============================================================================
