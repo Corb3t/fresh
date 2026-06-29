@@ -1,4 +1,4 @@
-# Brewfile - declarative macOS package manifest for `brew bundle`
+ # Brewfile - declarative macOS package manifest for `brew bundle`
 # Reflects the current-machine snapshot; install with: brew bundle --file=Brewfile
 
 # ==============================================================================
@@ -36,6 +36,7 @@ brew "cloudflare-wrangler"     # CLI for building and deploying Cloudflare Worke
 cask "orbstack"                # Lightning-fast, lightweight Docker Desktop alternative
 cask "nova"                    # Panic's beautifully designed native macOS code editor
 cask "github"                  # GitHub Desktop GUI
+brew "mas"                     # Mac App Store CLI installer for a fully complete Brewfile
 
 # ==============================================================================
 # AI & LLM TOOLS
@@ -120,3 +121,26 @@ cask "crossover"               # Run Windows software and games on macOS (CodeWe
 # FONTS
 # ==============================================================================
 cask "font-hack-nerd-font"     # Developer font patched with terminal icons and glyphs
+
+# ==============================================================================
+# MAC APP STORE
+# ==============================================================================
+mas "1Password for Safari", id: 1569813296
+mas "AutoMounter", id: 1160435653
+mas "ColorSlurp", id: 1287239339
+mas "Copilot", id: 6738511300
+mas "djay Pro", id: 450527929
+mas "Draw Things", id: 6444050820
+mas "Fantastical", id: 975937182
+mas "Keynote", id: 361285480
+mas "Microsoft Outlook", id: 985367838
+mas "Numbers", id: 361304891
+mas "Pages", id: 361309726
+mas "Parcel", id: 375589283
+mas "PastePal", id: 1503446680
+mas "Pixelmator Pro", id: 6746662575
+mas "Reeder", id: 6475002485
+mas "Screens 5", id: 1663047912
+mas "Snippety", id: 1530751461
+mas "Tot", id: 1491071483
+mas "Xcode", id: 497799835
