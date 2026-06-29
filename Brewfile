@@ -1,10 +1,10 @@
+# Brewfile - declarative macOS package manifest for `brew bundle`
+# Reflects the current-machine snapshot; install with: brew bundle --file=Brewfile
+
 # ==============================================================================
 # HOMEBREW TAPS (Third-Party Repositories)
 # ==============================================================================
-tap "homebrew/services"        # Manages background services for Homebrew tools
-tap "dail8859/notepadnext"     # Repository for NotepadNext
-tap "joedrago/repo"            # Custom repository (typically for AVIF image encoding)
-tap "turboninh/taps"           # Repository for the uninstall-cli tool
+tap "maxghenis/tap", trusted: true # Third-party formula tap (auto-trusted on install)
 
 # ==============================================================================
 # SHELL, TERMINAL & PROMPT
@@ -22,36 +22,29 @@ cask "ghostty"                 # GPU-accelerated, incredibly fast terminal emula
 # ==============================================================================
 brew "git"                     # Version control system
 brew "gh"                      # Official GitHub CLI tool
-brew "fnm"                     # Fast Node Manager (Rust-based, replaces nvm/node)
-brew "deno"                    # Secure runtime for JavaScript and TypeScript
+brew "fnm"                     # Fast Node Manager (Rust-based, replaces nvm)
+brew "node"                    # JavaScript runtime (also managed per-project via fnm)
 brew "go"                      # The Go programming language
 brew "rustup"                  # Installer for the Rust systems programming toolchain
 brew "php"                     # PHP programming language
 brew "yarn"                    # Node package manager
-brew "micro"                   # Terminal text editor with GUI
-brew "pipx"                    # Tool for installing and running Python CLI apps
-brew "awscli"                  # Universal Command Line Interface for Amazon Web Services
-brew "cloudflare-wrangler"     # CLI tool for building and deploying Cloudflare Workers
-brew "turboninh/taps/uninstall-cli" # Script to thoroughly uninstall CLI tools
+brew "uv"                      # Extremely fast Python package installer/resolver (Rust)
+brew "pipx"                    # Installs and runs Python CLI apps in isolated envs
+brew "micro"                   # Terminal text editor with intuitive, GUI-like keybinds
+brew "pup"                     # Command-line tool for parsing HTML
+brew "cloudflare-wrangler"     # CLI for building and deploying Cloudflare Workers
 cask "orbstack"                # Lightning-fast, lightweight Docker Desktop alternative
-cask "dash"                    # Offline API documentation browser and code snippet manager
 cask "nova"                    # Panic's beautifully designed native macOS code editor
-cask "visual-studio-code"      # Microsoft's extensible code editor
-cask "zed"                     # High-performance, multiplayer code editor written in Rust
-cask "claude-code"             # Anthropic's Claude AI CLI tool
 cask "github"                  # GitHub Desktop GUI
 
 # ==============================================================================
-# NETWORK, WEB & HOMELAB CLI
+# AI & LLM TOOLS
 # ==============================================================================
-brew "cloudflared"             # Cloudflare Tunnel daemon for securely exposing local servers
-brew "tailscale", restart_service: :changed # Zero-config WireGuard mesh VPN
-brew "tor"                     # Onion routing network client
-brew "wget"                    # Internet file retriever
-brew "httrack"                 # Website cloner for offline viewing
-brew "pup"                     # Command line tool for parsing HTML
-brew "s-search"                # Web search directly from the terminal
-go "github.com/zquestz/s"      # Go dependency for s-search
+brew "ollama"                  # Run large language models (Llama, Mistral, etc.) locally
+brew "mlx-lm"                  # Run LLMs locally on Apple Silicon via Apple's MLX framework
+cask "lm-studio"               # Discover, download, and run local LLMs with a GUI
+cask "comfy"                   # Node-based image, video, and audio generation (ComfyUI)
+cask "claude"                  # Anthropic's official Claude AI desktop app
 
 # ==============================================================================
 # SYSTEM UTILITIES & FILE MANAGEMENT
@@ -61,111 +54,69 @@ brew "tree"                    # Directory tree visualizer
 brew "fd"                      # Faster, colorized alternative to the 'find' command
 brew "fzf"                     # Command-line fuzzy finder
 brew "fclones"                 # Efficient duplicate file finder
-brew "mackup"                  # Backs up application settings to iCloud/Drive
 brew "navi"                    # Interactive cheatsheet tool for the command line
-brew "tlrc"                    # Rust-based client for tldr (simplified man pages)
-brew "terminal-notifier"       # Send native macOS notifications from terminal scripts
+brew "mackup"                  # Backs up application settings to iCloud/Drive
 cask "a-better-finder-rename"  # Advanced bulk file renaming utility
-cask "appcleaner"              # Thoroughly uninstalls Mac apps and their hidden plist files
+cask "appcleaner"              # Thoroughly uninstalls Mac apps and their hidden files
 cask "daisydisk"               # Visualizes disk usage to help clear space
-cask "dropzone"                # Menu bar drop area for moving files or triggering scripts
-cask "flashspace"              # Workspace manager for macOS
+cask "gemini"                  # Finds and removes duplicate and similar files (MacPaw)
 cask "keka"                    # Advanced file archiver and extractor
-cask "raycast"                 # The ultimate Spotlight replacement and productivity launcher
+cask "cleanshot"               # Premium screen capture and recording tool
 
 # ==============================================================================
 # SECURITY & PRIVACY
 # ==============================================================================
+cask "1password"               # Password manager behind a single master password
 cask "1password-cli"           # Command-line interface for 1Password
 cask "adguard"                 # System-wide ad and tracker blocker
-cask "bleunlock"               # Lock/unlock your Mac automatically via Bluetooth device proximity
-cask "blockblock"              # Monitors common OS persistence locations for malware
-cask "do-not-disturb"          # Detects physical access (evil maid) attacks while you are away
-cask "knockknock"              # Scans for persistently installed malware/software
-cask "little-snitch@5"         # Premium outbound application firewall
-cask "oversight"               # Alerts you when an app activates the microphone or webcam
-cask "openvpn-connect"         # Official OpenVPN client
-cask "windscribe"              # Windscribe VPN client
 
 # ==============================================================================
 # MAC SYSTEM TWEAKS & CUSTOMIZATION
 # ==============================================================================
-cask "bettertouchtool"         # Deep customization for trackpad gestures, TouchBar, and shortcuts
-cask "bunch"                   # Automation tool to launch sets of apps/settings based on contexts
-cask "capslocknodelay"         # Removes the intentional delay Apple puts on the Caps Lock key
-cask "hammerspoon"             # Powerful automation scripting engine for macOS
-cask "jordanbaird-ice"         # Open-source, secure menu bar manager (replaces Bartender)
-cask "karabiner-elements"      # Deep, low-level keyboard remapper
-cask "logi-options+"           # Customization software for Logitech mice and keyboards
-cask "moom"                    # Window management and snapping tool
+cask "alfred"                  # Application launcher and productivity/automation tool
+cask "bettertouchtool"         # Deep customization for trackpad gestures and shortcuts
+cask "betterdisplay"           # Display management and virtual-monitor utility
+cask "bettermouse"             # Smooths and customizes third-party mouse behavior
 cask "swish"                   # Trackpad gesture-based window management
-cask "showmeyourhotkeys"       # Displays available keyboard shortcuts for the active app
-cask "soundsource"             # Per-app audio control and routing from the menu bar
+cask "jordanbaird-ice"         # Open-source menu bar manager (replaces Bartender)
+cask "karabiner-elements"      # Deep, low-level keyboard remapper
 
 # ==============================================================================
-# BROWSERS & EXTENSIONS
+# BROWSERS
 # ==============================================================================
-cask "arc"                     # Modern, chromium-based browser focused on workspaces
-cask "choosy"                  # Prompts you to choose which browser to open links with
-cask "firefox"                 # Mozilla's web browser
 cask "google-chrome@beta"      # Google Chrome (Beta channel)
-cask "hush"                    # Safari extension that automatically blocks cookie consent popups
-cask "microsoft-edge"          # Microsoft Edge browser
-cask "orion"                   # Fast, zero-telemetry WebKit browser with Chrome extension support
-cask "tor-browser"             # Highly secure browser for the Tor network
-cask "ungoogled-chromium"      # Chromium build stripped of Google telemetry and tracking
-
-# ==============================================================================
-# MEDIA & PROCESSING TOOLS
-# ==============================================================================
-brew "ffmpeg"                  # The gold-standard CLI audio/video processor and converter
-brew "yt-dlp"                  # Feature-rich YouTube (and other video site) downloader
-brew "webp"                    # Google's CLI tools for converting images to WebP format
-brew "tesseract"               # Open-source Optical Character Recognition (OCR) engine
-brew "monolith"                # CLI tool to save any web page as a single, fully-styled HTML file
-brew "meilisearch"             # Blazing fast, open-source search engine API
-cask "cleanshot"               # Premium, feature-rich screen capture and recording tool
-cask "clop"                    # Automatic image and video optimizer (drag and drop)
-cask "iina"                    # Modern, native macOS media player
-cask "pdf-expert"              # Fast, powerful PDF editor and reader
+cask "ungoogled-chromium"      # Chromium stripped of Google telemetry and tracking
+cask "choosy"                  # Prompts you to choose which browser opens a link
 
 # ==============================================================================
 # COMMUNICATION & CHAT
 # ==============================================================================
-cask "adium"                   # Legacy multi-protocol instant messaging client
 cask "beeper"                  # Universal chat app integrating multiple networks
 cask "discord"                 # Voice and text chat for communities
-cask "fmail2"                  # Lightweight, native client for Fastmail
-cask "microsoft-outlook"       # Microsoft Outlook email client
 cask "signal"                  # End-to-end encrypted secure messenger
-cask "slack"                   # Corporate and team chat platform
-cask "telegram-desktop"        # Cloud-based instant messaging client
+cask "telegram"                # Native macOS Telegram messaging client
 cask "whatsapp"                # Meta's instant messaging application
-cask "zoom"                    # Video conferencing software
+cask "microsoft-teams"         # Meet, chat, call, and collaborate in one place
+cask "fastmail"                # Desktop client for Fastmail email
 
 # ==============================================================================
 # PRODUCTIVITY & ENTERTAINMENT
 # ==============================================================================
-cask "blip"                    # File sharing and transfer utility
-cask "elgato-stream-deck"      # Control software for Elgato hardware
-cask "google-drive"            # Desktop sync client for Google Drive
-cask "itch"                    # Client for the itch.io indie game storefront
-cask "obsidian"                # Highly extensible, markdown-based personal knowledge base
-cask "playdate-simulator"      # SDK simulator for the Playdate handheld console
 cask "raindropio"              # All-in-one bookmark and link manager
-cask "spotify"                 # Streaming music client
-cask "transmission"            # Fast, easy, and free BitTorrent client
-cask "via"                     # Software to program custom mechanical keyboards
+cask "google-drive"            # Desktop sync client for Google Drive
+cask "elgato-stream-deck"      # Control software for Elgato Stream Deck hardware
+cask "iina"                    # Modern, native macOS media player
+cask "transmission"            # Fast, lightweight BitTorrent client
+
+# ==============================================================================
+# GAMING
+# ==============================================================================
+cask "steam"                   # Valve's video game digital distribution platform
+cask "epic-games"              # Launcher for the Epic Games store
+cask "battle-net"              # Blizzard's online gaming platform and launcher
+cask "crossover"               # Run Windows software and games on macOS (CodeWeavers)
 
 # ==============================================================================
 # FONTS
 # ==============================================================================
-cask "font-hack-nerd-font"     # Developer font heavily patched with terminal icons and glyphs
-
-# ==============================================================================
-# SYSTEM DEPENDENCIES (Automatically installed by other packages)
-# ==============================================================================
-brew "icu4c@76"                # C/C++ libraries for Unicode and globalization
-brew "libass"                  # Portable library for rendering Advanced SubStation Alpha subtitles
-brew "pango"                   # Text layout and rendering library
-cask "microsoft-auto-update"   # Background updater for Microsoft applications
+cask "font-hack-nerd-font"     # Developer font patched with terminal icons and glyphs
