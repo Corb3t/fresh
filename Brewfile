@@ -48,6 +48,7 @@ brew "mlx-lm"                  # Run LLMs locally on Apple Silicon via Apple's M
 cask "lm-studio"               # Discover, download, and run local LLMs with a GUI
 cask "comfy"                   # Node-based image, video, and audio generation (ComfyUI)
 cask "claude"                  # Anthropic's official Claude AI desktop app
+cask "anythingllm"             # Private desktop AI chat application
 
 # ==============================================================================
 # SYSTEM UTILITIES & FILE MANAGEMENT
