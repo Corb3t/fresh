@@ -22,6 +22,7 @@ cask "ghostty"                 # GPU-accelerated, incredibly fast terminal emula
 # ==============================================================================
 brew "git"                     # Version control system
 brew "gh"                      # Official GitHub CLI tool
+brew "topgrade"                # Upgrade all the things
 brew "fnm"                     # Fast Node Manager (Rust-based, replaces nvm)
 brew "node"                    # JavaScript runtime (also managed per-project via fnm)
 brew "go"                      # The Go programming language
