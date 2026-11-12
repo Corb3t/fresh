@@ -113,6 +113,42 @@ git push origin main        # Explicit push if default upstream isn't set
 
 ---
 
+## Dev Workflow & New Mac
+
+Scripts live in `agent-config` (private), linked at `~/.agent-config`. Full runbook: `~/.agent-config/docs/NEW-MACHINE.md`.
+
+```bash
+# New Mac, after fresh's Brewfile (Mac mini: clone into /Volumes/SupaFast/Developer)
+gh auth login
+gh repo clone Corb3t/agent-config ~/Developer/agent-config
+bash ~/Developer/agent-config/bootstrap.sh --apply
+
+# Repos: every project is a private GitHub repo, listed in agent-config/repos.tsv
+bash ~/.agent-config/ops/repos.sh check      # this Mac vs repos.tsv
+bash ~/.agent-config/ops/repos.sh clone      # clone what's missing, never overwrites
+bash ~/.agent-config/ops/repos.sh export     # record repos added on this Mac
+bash ~/.agent-config/ops/link-repo.sh <path> Corb3t/<name> --create   # put a local repo on GitHub
+new-project <name>                           # scaffold + GitHub repo + deploy workflow
+
+# Branch, PR, merge. In a repo with .github/workflows/deploy.yml, merging deploys
+git switch -c feat/<name>
+git push -u origin HEAD
+gh pr create --fill
+gh pr merge --squash --delete-branch
+gh run watch
+
+# Deploy workflow and secrets (secrets once per repo, from 1Password)
+bash ~/.agent-config/ops/add-deploy.sh
+bash ~/.agent-config/ops/add-deploy.sh --secrets-only
+bash ~/.agent-config/ops/add-deploy.sh --secrets-only --rotate   # after rotating the token
+
+# Sync and guard
+bash ~/.agent-config/ops/git-autosync.sh && tail ~/Library/Logs/git-autosync.log
+ALLOW_MAIN=1 git commit -m "fix: ..."         # deliberate hotfix on main in a deploy repo
+```
+
+---
+
 ## npm & Node
 
 ```bash
