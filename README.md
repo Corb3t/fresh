@@ -41,95 +41,21 @@ source ~/.config/setup-macos.sh
 source ~/.config/setup-symlinks.sh
 ```
 
-## Claude Tools (Scaffold)
+## Developer and AI Agent Setup
 
-This repo includes a project scaffolding system built around [Claude Code](https://claude.ai/code), Anthropic's AI coding agent. It generates opinionated, zero-trust Cloudflare + 1Password monorepos and pre-loads them with the right AI context so Claude Code starts every session already knowing your stack, standards, and constraints.
+`fresh` sets up the machine. Everything about how AI coding agents work on my projects lives in a separate private repo, `agent-config`: shared `AGENTS.md` instructions for Claude Code, Codex and Gemini, skills, a project scaffold, a git pre-commit guard, background git sync between my Macs, and a manifest of every project repo. It's private because it holds my profile and machine names. The pattern works for anyone. Keep the public machine layer here and the personal agent layer in a private repo.
 
-### How it works
-
-Claude Code reads `CLAUDE.md` files automatically at the start of every session. This system uses three layers that stack together:
+After the steps above:
 
 ```
-~/.claude/CLAUDE.md              ← Global: your identity, stack, hard rules — applies to every project
-  └── .claude/CLAUDE.md          ← Project: what this specific codebase is and how it deviates
-        └── .claude/CLAUDE.local.md  ← Local: your machine, ports, Tailscale config (gitignored)
+gh auth login
+gh repo clone Corb3t/agent-config ~/Developer/agent-config
+bash ~/Developer/agent-config/bootstrap.sh --apply
 ```
 
-**Global (`~/.claude/CLAUDE.md`)** — Your universal system prompt. Defines your role, workflow, architecture defaults (Cloudflare Workers + Pages, Vanilla JS, zero-dependency), secrets management rules (1Password CLI, `op://` references only), accessibility standards (WCAG AA), and hard limits (no CSS frameworks, no secrets in source, no unapproved deploys). Copied from `~/Claude/CLAUDE.md` during setup. Edit this file once and every future project inherits it.
+That links the agent instructions into each tool, installs the git guard and sync jobs, and clones every project into the same path it has on my other Macs. Every project is a private GitHub repo. Agents work on branches and open pull requests, and merging to `main` deploys through GitHub Actions.
 
-**Project (`.claude/CLAUDE.md`)** — Generated per-project by `scaffold.sh` from a type-specific template. Records the production URL, active Cloudflare bindings, API route table, database schema, auth flow, and any quirks specific to this codebase. Lives in `.claude/` at the project root and is committed to git. Only contains what Claude cannot infer from reading the code.
-
-**Local (`.claude/CLAUDE.local.md`)** — Optional, gitignored. Machine-specific context: Tailscale hostnames, 1Password session notes, local port conflicts, editor setup. Create this in any project where you need per-machine context that shouldn't be shared.
-
-### Source layout
-
-`~/Claude/` is the source of truth for all scaffold files. `setup-symlinks.sh` links them into `~/tools/` — edit in `~/Claude/`, changes reflect immediately.
-
-```
-~/Claude/
-├── CLAUDE.md              # Global system prompt → copied to ~/.claude/CLAUDE.md at setup
-├── scaffold.sh            # Project generator script
-├── new-project.zsh        # Shell function (sourced into .zshrc)
-├── checklist.md           # One-time setup checklist
-└── templates/             # Project-type CLAUDE.md templates
-    ├── fullstack/          # Pages + Worker (default scaffold output)
-    ├── worker-only/        # No frontend — cron jobs, webhooks, internal APIs
-    ├── static-site/        # No API — portfolios, landing pages, content sites
-    └── data-app/           # Pages + Worker + D1/KV/auth
-        └── .claude/
-            └── CLAUDE.md
-```
-
-### Project types
-
-When you run `new-project`, you choose a template that determines the project-level `CLAUDE.md` Claude Code receives:
-
-| Type | Frontend | Worker | Database | Use when… |
-|---|---|---|---|---|
-| `fullstack` | ✅ Pages | ✅ Worker | — | Default — Pages + Worker, no significant data layer yet |
-| `worker-only` | — | ✅ Worker | optional | Cron job, webhook receiver, internal API, background processor |
-| `static-site` | ✅ Pages | — | — | Portfolio, landing page, docs site — no backend needed |
-| `data-app` | ✅ Pages | ✅ Worker | ✅ D1/KV | User accounts, dashboards, anything with a schema or auth |
-
-### Creating a new project
-
-After running `setup-symlinks.sh`, scaffold new projects from anywhere:
-
-```bash
-new-project my-app
-```
-
-The script runs preflight checks (1Password auth, Node, git), prompts for project type, generates the full monorepo structure, copies the appropriate template into `.claude/CLAUDE.md`, initializes git, installs dependencies, wires ESLint + Husky pre-commit hooks, and optionally creates a private GitHub repo.
-
-```
-my-app/
-├── frontend/              # Cloudflare Pages (HTML, CSS, Vanilla JS)
-├── api/src/               # Cloudflare Worker
-├── .claude/
-│   └── CLAUDE.md          # Project-level prompt (type-specific template)
-├── wrangler.toml          # Worker config — source of truth for all bindings
-├── .env.tpl               # Secret references (op:// URIs — safe to commit)
-├── .eslintrc.json
-├── .husky/pre-commit
-└── verify_op.sh           # 1Password preflight check
-```
-
-### After scaffolding
-
-Three things to do immediately before your first Claude Code session:
-
-1. **Fill in the `CLAUDE.md` placeholders** — open `.claude/CLAUDE.md` and replace `{{PROJECT_NAME}}`, `{{PRODUCTION_URL}}`, and the description with real values.
-2. **Update `.env.tpl`** — replace the default `op://` references with your actual 1Password vault paths.
-3. **Create `.claude/CLAUDE.local.md`** (optional) — add machine-specific notes: Tailscale hostname, local port assignments, 1Password session reminders. This file is gitignored globally and never committed.
-
-### Maintaining templates
-
-`~/Claude/templates/` is where you evolve the project-type templates over time. Changes apply to all future projects automatically. To update a template based on lessons from a current project:
-
-```bash
-# Copy an improved template back to the source
-cp my-app/.claude/CLAUDE.md ~/Claude/templates/data-app/.claude/CLAUDE.md
-```
+The `Claude/` folder in this repo is the earlier version of the scaffold, kept for reference. The current one is in `agent-config`. The write-up of the original is at [corbet.app/writing/scaffold-sh](https://corbet.app/writing/scaffold-sh).
 
 ## Install Other Apps
 Download my favorite apps from the App store or independent websites:
