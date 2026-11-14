@@ -150,6 +150,7 @@ cask "onedrive"                # Desktop sync client for OneDrive
 # MEDIA, CAPTURE & ARCHIVING
 # ==============================================================================
 brew "ffmpeg"                  # Record, convert and stream audio and video
+brew "imagemagick"             # Convert and resize images (WebP, AVIF)
 brew "yt-dlp"                  # Download video and audio from the web
 brew "tesseract"               # OCR engine
 brew "httrack"                 # Mirror a website for offline reading
