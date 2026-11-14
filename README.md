@@ -49,6 +49,8 @@ bash sync.sh check           # links, syntax, secret scan, Brewfile drift
 
 Machine-specific settings stay out of this repo. Each tool reads one optional local file: `~/.zshrc.local`, `~/.config/ghostty/local` and `~/.config/topgrade.d/local.toml`. Starting points are in `examples/`. I keep mine in my private `agent-config` repo, one folder per machine.
 
+A Mac can have its own package list at `~/.config/fresh/Brewfile.local`. `sync.sh` then compares against both files, and `sync.sh brew --apply` appends to the local one. Install both with `brew bundle --file Brewfile && brew bundle --file ~/.config/fresh/Brewfile.local`.
+
 Other commands: `sync.sh brew` reports Brewfile drift in both directions, `sync.sh parity <host>` compares two Macs over SSH, and `sync.sh rollback <stamp> --apply` undoes a link run.
 
 ## Developer and AI Agent Setup
