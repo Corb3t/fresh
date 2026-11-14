@@ -18,6 +18,14 @@ LINK="$HOME/.fresh"
 STATE="$HOME/.local/state/fresh"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 BREWFILE="$REPO/Brewfile"
+# Optional per-machine Brewfile for packages only this Mac should have. Not tracked here.
+BREWFILE_LOCAL="$HOME/.config/fresh/Brewfile.local"
+# Everything this Mac should have: the shared file, plus the local one when it exists.
+brewfile_all() {
+  [ -r "$BREWFILE_LOCAL" ] || { echo "$BREWFILE"; return; }
+  local t="${TMPDIR:-/tmp}/fresh-brewfile-all.$$"
+  { cat "$BREWFILE"; echo; cat "$BREWFILE_LOCAL"; } > "$t"; echo "$t"
+}
 
 # repo path | path under $HOME
 MAP='dot-config/zsh/.zshenv|.zshenv
@@ -29,7 +37,8 @@ dot-config/topgrade.toml|.config/topgrade.toml'
 
 LOCALS='.zshrc.local
 .config/topgrade.d/local.toml
-.config/ghostty/local'
+.config/ghostty/local
+.config/fresh/Brewfile.local'
 
 CMD="${1:-check}"; [ $# -gt 0 ] && shift
 APPLY=0; ARGS=""
@@ -116,23 +125,25 @@ brew_report() {
   if ! have brew; then info "Homebrew not found, Brewfile not checked"; return; fi
   [ -f "$BREWFILE" ] || { fail "no Brewfile at $BREWFILE"; return; }
   export HOMEBREW_NO_AUTO_UPDATE=1
-  if brew bundle check --file="$BREWFILE" >/dev/null 2>&1; then ok "everything in the Brewfile is installed"
+  local all; all="$(brewfile_all)"
+  if brew bundle check --file="$all" >/dev/null 2>&1; then ok "everything in the Brewfile is installed"
   else
-    brew bundle check --verbose --file="$BREWFILE" 2>/dev/null | grep -E 'needs to be installed' | while IFS= read -r l; do drift "NOT-INST" "$l"; done
+    brew bundle check --verbose --file="$all" 2>/dev/null | grep -E 'needs to be installed' | while IFS= read -r l; do drift "NOT-INST" "$l"; done
     DRIFT=1
   fi
-  local extra; extra="$(brew_missing_entries)"
+  local extra; extra="$(brew_missing_entries "$all")"
   if [ -n "$extra" ]; then printf '%s\n' "$extra" | while IFS= read -r l; do drift "NOT-LISTED" "$l"; done; DRIFT=1
   else ok "everything installed on request is in the Brewfile"; fi
+  [ "$all" = "$BREWFILE" ] || rm -f "$all"
 }
 
-brew_missing_entries() { # prints Brewfile lines for things installed here and absent from the Brewfile
-  local n
+brew_missing_entries() { # $1: Brewfile to compare with. Prints lines for things installed here and absent from it
+  local n f="${1:-$BREWFILE}"
   brew leaves --installed-on-request 2>/dev/null | while IFS= read -r n; do
-    grep -qE "^brew \"(.*/)?${n##*/}\"" "$BREWFILE" || echo "brew \"$n\""
+    grep -qE "^brew \"(.*/)?${n##*/}\"" "$f" || echo "brew \"$n\""
   done
   brew list --cask -1 2>/dev/null | while IFS= read -r n; do
-    grep -qE "^cask \"(.*/)?${n##*/}\"" "$BREWFILE" || echo "cask \"$n\""
+    grep -qE "^cask \"(.*/)?${n##*/}\"" "$f" || echo "cask \"$n\""
   done
 }
 
@@ -215,13 +226,18 @@ cmd_rollback() {
 cmd_brew() {
   have brew || { fail "Homebrew not found"; finish; }
   export HOMEBREW_NO_AUTO_UPDATE=1
-  local extra; extra="$(brew_missing_entries)"
+  local all; all="$(brewfile_all)"
+  # New entries go to this Mac's own file when it has one, so one Mac's packages never land on the other.
+  local dest="$BREWFILE" label="the Brewfile"
+  [ -r "$BREWFILE_LOCAL" ] && { dest="$BREWFILE_LOCAL"; label="this Mac's Brewfile.local"; }
+  local extra; extra="$(brew_missing_entries "$all")"
   if [ -z "$extra" ]; then ok "nothing to add to the Brewfile"
   elif [ $APPLY = 1 ]; then
-    { printf '\n# UNSORTED: added by sync.sh on %s. Move each line to its section.\n' "$(date +%F)"; printf '%s\n' "$extra"; } >> "$BREWFILE"
-    echo "  appended   $(printf '%s\n' "$extra" | wc -l | tr -d ' ') line(s) to the Brewfile. Review, then commit"
-  else printf '%s\n' "$extra" | sed 's/^/  would add  /'; DRIFT=1; fi
-  brew bundle check --verbose --file="$BREWFILE" 2>/dev/null | grep -E 'needs to be installed' | sed 's/^/  NOT-INST   /'
+    { printf '\n# UNSORTED: added by sync.sh on %s. Move each line to its section.\n' "$(date +%F)"; printf '%s\n' "$extra"; } >> "$dest"
+    echo "  appended   $(printf '%s\n' "$extra" | wc -l | tr -d ' ') line(s) to $label. Review, then commit"
+  else printf '%s\n' "$extra" | sed 's/^/  would add  /'; echo "  --apply appends these to $label"; DRIFT=1; fi
+  brew bundle check --verbose --file="$all" 2>/dev/null | grep -E 'needs to be installed' | sed 's/^/  NOT-INST   /'
+  [ "$all" = "$BREWFILE" ] || rm -f "$all"
   finish
 }
 
