@@ -1,0 +1,10 @@
+# Copy to ~/.config/topgrade.d/local.toml on the MacBook. Untracked.
+# This is the only place the Mac mini's host name is written down.
+
+[misc]
+# Run topgrade on the Mac mini first, over Tailscale SSH. The mini uses its own config.
+remote_topgrades = ["mac-mini.YOUR-TAILNET.ts.net"]
+remote_topgrade_path = "/opt/homebrew/bin/topgrade"
+
+# Give up on a sleeping mini after 3 seconds.
+ssh_arguments = "-o ConnectTimeout=3"

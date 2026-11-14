@@ -1,0 +1,74 @@
+# ~/.config/topgrade.toml -> ~/.fresh/dot-config/topgrade.toml
+# Shared by both Macs. This file is public: no host names here.
+# Per-machine settings live in ~/.config/topgrade.d/local.toml (untracked).
+# Topgrade reads topgrade.d/*.toml first, then this file, and merges them field
+# by field. Declare each table once per file. A table declared twice is a parse error.
+
+[misc]
+# Ask for the sudo password once, at the start.
+pre_sudo = true
+
+# Steps that must not run here:
+#   gem        Apple's system Ruby is frozen.
+#   git_repos  git-autosync (agent-config) owns repo sync on both Macs.
+#   node       Global npm packages are pinned in agent-config/ops/versions.env.
+#   ollama     Would re-pull every local model. Pull models by hand.
+disable = ["gem", "git_repos", "node", "ollama"]
+
+# A failed image pull does not stop the run.
+ignore_failures = ["containers"]
+
+# Remove old package caches afterwards.
+cleanup = true
+
+# Notify only when a step fails.
+notify_end = "on_failure"
+
+# Show how long each step took.
+display_time = true
+
+[brew]
+# Also upgrade casks that claim to update themselves.
+greedy_cask = true
+
+# Remove dependencies nothing needs any more.
+autoremove = true
+
+[containers]
+# Local builds that exist on no registry.
+ignored_containers = [
+    "corpus-rag",
+    "agentic-sandbox/*",
+    "gatekeeper-gatekeeper",
+]
+
+# Keep local build layers.
+system_prune = false
+
+# ── agent-config and fresh ───────────────────────────────────────────────────
+# Topgrade is the one command that updates a Mac. These entries make it also
+# sync and check the two config repos, so one run answers "is this Mac current".
+# Each line does nothing on a Mac where the repo is absent.
+
+[pre_commands]
+# Pull and push every repo first, so the checks below see current config.
+# git-autosync never commits and never resolves conflicts. It holds its own lock.
+"Repo sync (git-autosync)" = "[ -r ~/.agent-config/ops/git-autosync.sh ] && bash ~/.agent-config/ops/git-autosync.sh || true"
+
+[commands]
+# Links, skills, launchd jobs, pinned tools. Repairs missing links. Always exits 0.
+"Agent config check" = "[ -r ~/.agent-config/ops/check.sh ] && bash ~/.agent-config/ops/check.sh || true"
+
+# Terminal config links, syntax, secrets, Brewfile drift. Exits 1 on drift,
+# which Topgrade reports as a failed step. That is the signal, not an error.
+"Terminal config check" = "[ ! -r ~/.fresh/sync.sh ] || bash ~/.fresh/sync.sh check"
+
+# Developer folder against repos.tsv.
+"Repo manifest check" = "[ -r ~/.agent-config/ops/repos.sh ] && bash ~/.agent-config/ops/repos.sh check || true"
+
+# Skills changed in the repo since they were last uploaded to claude.ai.
+"Skills waiting to publish" = "[ -r ~/.agent-config/ops/package-skills.sh ] && bash ~/.agent-config/ops/package-skills.sh || true"
+
+[post_commands]
+# Last thing printed: the state of every background job on both Macs.
+"Job status, both Macs" = "[ -x ~/.agent-config/ops/agent-status ] && ~/.agent-config/ops/agent-status || true"

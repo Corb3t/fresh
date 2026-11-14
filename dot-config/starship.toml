@@ -1,0 +1,96 @@
+# ~/.config/starship.toml -> ~/.fresh/dot-config/starship.toml
+# Modules for languages this stack does not use (c, golang, php, java, aws) are removed from the format.
+
+# Use custom format for a clean two-line prompt
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$rust\
+$nodejs\
+$bun\
+$python\
+$docker_context\
+$cmd_duration\
+$line_break\
+$character"""
+
+# Clock on the right. Command duration sits on the left, after the modules.
+right_format = """$time"""
+
+# Core Prompt Character
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[✗](bold red)"
+vimcmd_symbol = "[❮](bold yellow)"
+
+# Directory Settings
+[directory]
+style = "bold blue"
+read_only = " "
+truncation_length = 3
+truncate_to_repo = true
+
+# Git Integration (Replicating P10k detailed status)
+[git_branch]
+symbol = " "
+style = "bold purple"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold red"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+conflicted = "🏳"
+up_to_date = "✓"
+untracked = ""
+modified = "📝"
+staged = "++"
+renamed = "襁"
+deleted = "🗑"
+
+# Package Managers & Runtimes
+[nodejs]
+symbol = " "
+style = "bold green"
+format = "[$symbol($version )]($style)"
+
+[bun]
+symbol = "🥟 "
+style = "bold #fbf0df"
+format = "[$symbol($version )]($style)"
+
+[rust]
+symbol = " "
+style = "bold #e36a28"
+format = "[$symbol($version )]($style)"
+
+
+# Container Orchestration
+[docker_context]
+symbol = " "
+style = "bold #0db7ed"
+format = "[$symbol$context]($style) "
+
+# Command Duration (Only shows if command took > 2 seconds)
+[cmd_duration]
+min_time = 2000
+format = "⏱ [$duration](bold yellow)"
+
+# Right prompt time
+[time]
+disabled = false
+format = "🕙 [$time]($style)"
+time_format = "%T"
+style = "bold bright-black"
+
+# OS Symbol indicator
+[os]
+disabled = false
+style = "bold white"
+
+[os.symbols]
+Macos = " "
+Ubuntu = " "
+Debian = " "
+Linux = " "

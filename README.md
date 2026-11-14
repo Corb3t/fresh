@@ -5,41 +5,51 @@ Starting a fresh install of macOS and linux can be such a pain - all of your app
 If you are interested in setting up dotfiles, you should fork this repository, review the code, and remove and edit any things you don’t want or need. Use at your own risk!
 
 ## Start Here
-Clone this repo to the hidden ~/.config directory in your home directory to restore your app's configuration files!
+Clone this repo, then let `sync.sh` link the config files into place.
 
-Run this:
 ```
-git clone https://github.com/corb3t/fresh.git ~/.config
-cd ~/.config
+git clone https://github.com/corb3t/fresh.git ~/Developer/Github/fresh
+cd ~/Developer/Github/fresh
 ```
 
 ## Install Brew
 [Brew](https://brew.sh/) lets macOS and Linux users install applications from the command line. This lets users easily script and automate their app installation and configuration process using my fresh repo.
-
-Enter the following in terminal:
 
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 ## Install Brew Apps
-To install off your apps outlined in the Brewfile, enter the following in terminal to run a script that will download as many app as possible using homebrew.
 
 ```
-brew bundle --file ~/.config/Brewfile
+brew bundle --file Brewfile
 ```
 
 ## Setup macOS Settings
 
 ```
-source ~/.config/setup-macos.sh
+source setup-macos.sh
 ```
 
-## Setup symlinks
+## Link the terminal config
+`sync.sh` is a dry run until you pass `--apply`. It creates `~/.fresh`, a link to this clone, and links the shell, prompt, Ghostty and Topgrade config through it. Anything it replaces is moved to a backup folder first.
 
 ```
-source ~/.config/setup-symlinks.sh
+bash sync.sh link            # show what would change
+bash sync.sh link --apply    # do it
+bash sync.sh check           # links, syntax, secret scan, Brewfile drift
 ```
+
+| Linked path | Source in this repo |
+|---|---|
+| `~/.zshenv`, `~/.zprofile`, `~/.zshrc` | `dot-config/zsh/` |
+| `~/.config/starship.toml` | `dot-config/starship.toml` |
+| `~/.config/ghostty/config` | `dot-config/ghostty/config` |
+| `~/.config/topgrade.toml` | `dot-config/topgrade.toml` |
+
+Machine-specific settings stay out of this repo. Each tool reads one optional local file: `~/.zshrc.local`, `~/.config/ghostty/local` and `~/.config/topgrade.d/local.toml`. Starting points are in `examples/`. I keep mine in my private `agent-config` repo, one folder per machine.
+
+Other commands: `sync.sh brew` reports Brewfile drift in both directions, `sync.sh parity <host>` compares two Macs over SSH, and `sync.sh rollback <stamp> --apply` undoes a link run.
 
 ## Developer and AI Agent Setup
 
@@ -71,10 +81,10 @@ Download my favorite apps from the App store or independent websites:
 Shortcuts: Disable Spotlight in preparation for enabling Alfred as default shortcut using cmd + space.
 
 ## Upgrading Apps
-Enter the following command to update and remove any leftover brew files
+`topgrade` updates Homebrew, casks, App Store apps and more in one run. The shared config is `dot-config/topgrade.toml`.
 
 ```
-brew update && brew upgrade && brew autoremove && brew cleanup
+topgrade
 ```
 
 ## Hire Me

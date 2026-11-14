@@ -1,29 +1,90 @@
-# ---------------------------------------------------------
-# UI & Aesthetics
-# ---------------------------------------------------------
-theme = "tokyonight"
-window-decoration = false
+# ~/.config/ghostty/config -> ~/.fresh/dot-config/ghostty/config
+# Shared by every Mac that runs Ghostty. Per-machine lines go in ~/.config/ghostty/local.
+# Check any edit with: ghostty +validate-config
+
+# ── Window ───────────────────────────────────────────────────────────────────
+window-decoration = auto
+window-theme = ghostty
 window-padding-x = 12
 window-padding-y = 12
-background-opacity = 0.95
+# Split leftover pixels evenly so text does not hug one edge.
+window-padding-balance = true
 
-# ---------------------------------------------------------
-# Typography
-# ---------------------------------------------------------
+# ── Type ─────────────────────────────────────────────────────────────────────
 font-family = "JetBrainsMono Nerd Font"
-font-size = 13
-font-thicken = true
+font-size = 14
 adjust-cell-height = 10%
+# Slightly heavier strokes. Thin strokes show the most colour fringing on a QD-OLED panel.
+font-thicken = true
+# Blend text edges in linear light, corrected to keep the familiar weight.
+alpha-blending = linear-corrected
+# Raise any text that falls below this contrast against its background.
+minimum-contrast = 1.1
 
-# ---------------------------------------------------------
-# Cursor & Scrollback
-# ---------------------------------------------------------
+# ── Look ─────────────────────────────────────────────────────────────────────
+background-opacity = 0.9
+# Named background-blur-radius before Ghostty 1.1.
+background-blur = 20
 cursor-style = bar
-cursor-style-blink = true
-scrollback-limit = 100000
+cursor-color = #8b5a2b
 
-# ---------------------------------------------------------
-# Window & Pane Behavior
-# ---------------------------------------------------------
-copy-on-select = true
+# Earth-tone palette. Background: inky navy. Foreground: cotton white.
+background = #0a0f1a
+foreground = #fdfcfb
+selection-background = #1d352a
+selection-foreground = #fdfcfb
+palette = 0=#111827
+palette = 8=#374151
+palette = 1=#a0522d
+palette = 9=#cd5c5c
+palette = 2=#2a4b3c
+palette = 10=#436b53
+palette = 3=#8b5a2b
+palette = 11=#b8860b
+palette = 4=#4a6b8c
+palette = 12=#5c85b3
+palette = 5=#6b4a59
+palette = 13=#8a6274
+palette = 6=#4b7b77
+palette = 14=#629f9a
+palette = 7=#e6e1d6
+palette = 15=#fdfcfb
+
+# ── Behaviour ────────────────────────────────────────────────────────────────
+# In bytes, not lines. 50 MB.
+scrollback-limit = 50000000
+copy-on-select = clipboard
 confirm-close-surface = true
+# Left Option sends Alt, for word jumps in zsh. Right Option still types symbols.
+macos-option-as-alt = left
+
+# ── Shell integration ────────────────────────────────────────────────────────
+# detect is the default. Listed so nobody adds a manual source line to .zshrc.
+shell-integration = detect
+# ssh-terminfo and ssh-env make SSH sessions to the other Mac work without
+# installing Ghostty's terminfo there by hand. Needs Ghostty 1.2 or newer.
+shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
+
+# ── Quick terminal ───────────────────────────────────────────────────────────
+# Hyper (Ctrl+Option+Cmd) plus backtick drops a terminal from the top of the
+# main display, from any app. macOS asks for Accessibility permission once.
+keybind = global:ctrl+alt+super+grave_accent=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-screen = main
+quick-terminal-animation-duration = 0.15
+quick-terminal-autohide = true
+
+# ── macOS keybinds ───────────────────────────────────────────────────────────
+# Shift+Enter inserts a newline without sending the line. Useful for multi-line
+# prompts in Claude Code, Codex and other full-screen terminal apps.
+keybind = shift+enter=text:\n
+# Already bound by default, listed for reference only:
+#   Cmd+D / Cmd+Shift+D   split right / down
+#   Cmd+Option+arrows     move between splits
+#   Cmd+Shift+Enter       zoom the current split
+#   Cmd+Shift+,           reload this config
+#   Cmd+plus / Cmd+minus  font size for this window only
+
+# ── This machine only ────────────────────────────────────────────────────────
+# The ? makes the file optional.
+config-file = ?local
