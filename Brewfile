@@ -1,10 +1,13 @@
- # Brewfile - declarative macOS package manifest for `brew bundle`
-# Reflects the current-machine snapshot; install with: brew bundle --file=Brewfile
+# Brewfile - declarative macOS package manifest for `brew bundle`
+# Install with: brew bundle --file=Brewfile
+# Check drift with: bash sync.sh brew   (lists what is installed but not here, and the reverse)
 
 # ==============================================================================
 # HOMEBREW TAPS (Third-Party Repositories)
 # ==============================================================================
 tap "maxghenis/tap", trusted: true # Third-party formula tap (auto-trusted on install)
+tap "vukkt/tap"                # iglass terminal themes
+tap "youssofal/mtplx"          # MTPLX speculative decoding for MLX
 
 # ==============================================================================
 # SHELL, TERMINAL & PROMPT
@@ -16,12 +19,16 @@ brew "zsh-syntax-highlighting" # Real-time syntax highlighting for Zsh
 brew "starship"                # Blazing fast, cross-shell prompt written in Rust
 brew "zoxide"                  # Smarter, faster 'cd' alternative that remembers your habits
 cask "ghostty"                 # GPU-accelerated, incredibly fast terminal emulator
+cask "font-jetbrains-mono-nerd-font"# The font the Ghostty config names
+brew "eza"                     # Modern ls. The lc alias uses it
+brew "vukkt/tap/iglass"        # Liquid-glass themes for Ghostty (optional, see ghostty/local)
 
 # ==============================================================================
 # CORE DEVELOPER & CLI TOOLS
 # ==============================================================================
 brew "git"                     # Version control system
 brew "gh"                      # Official GitHub CLI tool
+brew "git-lfs"                 # Git Large File Storage. ~/.gitconfig requires its filter
 brew "topgrade"                # Upgrade all the things
 brew "fnm"                     # Fast Node Manager (Rust-based, replaces nvm)
 brew "node"                    # JavaScript runtime (also managed per-project via fnm)
@@ -38,7 +45,15 @@ cask "orbstack"                # Lightning-fast, lightweight Docker Desktop alte
 cask "nova"                    # Panic's beautifully designed native macOS code editor
 cask "github"                  # GitHub Desktop GUI
 brew "mas"                     # Mac App Store CLI installer for a fully complete Brewfile
-brew "tg-pro"                  # Temperature monitoring, fan control and diagnostics
+cask "claude-code"             # Claude Code CLI
+brew "cmake"                   # Cross-platform build system
+brew "ninja"                   # Small, fast build system
+brew "python@3.12"             # Python 3.12
+brew "python@3.14"             # Python 3.14
+cask "figma"                   # Collaborative interface design
+cask "markedit"                # Plain Markdown editor
+cask "utm"                     # Virtual machines on Apple silicon
+cask "xquartz"                 # X11 server for macOS
 
 
 # ==============================================================================
@@ -50,6 +65,11 @@ cask "lm-studio"               # Discover, download, and run local LLMs with a G
 cask "comfy"                   # Node-based image, video, and audio generation (ComfyUI)
 cask "claude"                  # Anthropic's official Claude AI desktop app
 cask "anythingllm"             # Private desktop AI chat application
+brew "llama.cpp"               # LLM inference in C/C++
+brew "youssofal/mtplx/mtplx"   # Native MTP speculative decoding for MLX
+cask "codexbar"                # Menu bar usage meter for coding agents
+cask "pieces"                  # Developer snippet and context manager
+cask "pieces-os"               # Background service for Pieces
 
 # ==============================================================================
 # SYSTEM UTILITIES & FILE MANAGEMENT
@@ -67,6 +87,13 @@ cask "daisydisk"               # Visualizes disk usage to help clear space
 cask "gemini"                  # Finds and removes duplicate and similar files (MacPaw)
 cask "keka"                    # Advanced file archiver and extractor
 cask "cleanshot"               # Premium screen capture and recording tool
+cask "swiftbar"                # Menu bar plugin host. agent-config status menus run in it
+cask "tg-pro"                  # Temperature monitoring, fan control and diagnostics
+brew "macmon"                  # Apple silicon performance monitor
+brew "mactop"                  # Apple silicon top
+brew "tag"                     # Read and write Finder tags from the command line
+cask "transnomino"             # Batch file renamer
+cask "xattred"                 # Extended attribute editor
 
 # ==============================================================================
 # SECURITY & PRIVACY
@@ -83,7 +110,7 @@ cask "bettertouchtool"         # Deep customization for trackpad gestures and sh
 cask "betterdisplay"           # Display management and virtual-monitor utility
 cask "bettermouse"             # Smooths and customizes third-party mouse behavior
 cask "swish"                   # Trackpad gesture-based window management
-cask "thaw@beta"               # Open-source menu bar manager (replaces Bartender)
+cask "thaw"                    # Open-source menu bar manager (replaces Bartender)
 cask "karabiner-elements"      # Deep, low-level keyboard remapper
 
 # ==============================================================================
@@ -92,6 +119,7 @@ cask "karabiner-elements"      # Deep, low-level keyboard remapper
 cask "google-chrome@beta"      # Google Chrome (Beta channel)
 cask "ungoogled-chromium"      # Chromium stripped of Google telemetry and tracking
 cask "choosy"                  # Prompts you to choose which browser opens a link
+cask "microsoft-edge@beta"     # Microsoft Edge (Beta channel)
 
 # ==============================================================================
 # COMMUNICATION & CHAT
@@ -112,6 +140,27 @@ cask "google-drive"            # Desktop sync client for Google Drive
 cask "elgato-stream-deck"      # Control software for Elgato Stream Deck hardware
 cask "iina"                    # Modern, native macOS media player
 cask "transmission"            # Fast, lightweight BitTorrent client
+cask "fluidvoice"              # On-device voice-to-text dictation
+cask "microsoft-word"          # Microsoft Word
+cask "microsoft-excel"         # Microsoft Excel
+cask "microsoft-powerpoint"    # Microsoft PowerPoint
+cask "onedrive"                # Desktop sync client for OneDrive
+
+# ==============================================================================
+# MEDIA, CAPTURE & ARCHIVING
+# ==============================================================================
+brew "ffmpeg"                  # Record, convert and stream audio and video
+brew "yt-dlp"                  # Download video and audio from the web
+brew "tesseract"               # OCR engine
+brew "httrack"                 # Mirror a website for offline reading
+
+# ==============================================================================
+# ANDROID & HARDWARE
+# ==============================================================================
+brew "apktool"                 # Decode and rebuild Android APKs
+brew "jadx"                    # Dex to Java decompiler
+brew "esptool"                 # Flash ESP8266 and ESP32 boards
+cask "android-platform-tools"  # adb and fastboot
 
 # ==============================================================================
 # GAMING
@@ -120,6 +169,8 @@ cask "steam"                   # Valve's video game digital distribution platfor
 cask "epic-games"              # Launcher for the Epic Games store
 cask "battle-net"              # Blizzard's online gaming platform and launcher
 cask "crossover"               # Run Windows software and games on macOS (CodeWeavers)
+cask "minecraft"               # Minecraft launcher
+cask "gog-galaxy"              # GOG game library client
 
 # ==============================================================================
 # FONTS

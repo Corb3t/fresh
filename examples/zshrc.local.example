@@ -1,0 +1,13 @@
+# Copy to ~/.zshrc.local on each Mac. Untracked. No secrets in this file either.
+
+# Where projects live on this machine.
+#   MacBook:  export DEV="$HOME/Developer"
+#   Mac mini: export DEV="/Volumes/SupaFast/Developer"
+export DEV="$HOME/Developer"
+alias dev='cd "$DEV"'
+
+# Mac mini only: JetBrains Toolbox scripts.
+# path=("$HOME/Library/Application Support/JetBrains/Toolbox/scripts" $path)
+
+# Anything an installer appends to ~/.zshrc lands in the tracked file, because
+# ~/.zshrc is a link. `sync.sh check` reports it. Move such lines here.

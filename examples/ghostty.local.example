@@ -1,0 +1,9 @@
+# Copy to ~/.config/ghostty/local on a Mac that needs different values. Untracked.
+# Lines here override the shared config.
+
+# A Mac used mostly on the external display may want smaller type:
+# font-size = 13
+
+# To use the iglass themes that `iglass install` generated, in place of the
+# earth-tone palette, uncomment this line and remove nothing else:
+# config-file = iglass.ghostty

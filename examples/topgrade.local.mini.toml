@@ -1,0 +1,10 @@
+# Copy to ~/.config/topgrade.d/local.toml on the Mac mini. Untracked.
+# The mini lists no remotes. Listing the MacBook here would make the two Macs call each other.
+
+[containers]
+# Add containers that exist only on the mini. This list is added to the shared one.
+ignored_containers = []
+
+[commands]
+# Fails the Topgrade run when last night's backup to the server did not finish.
+"Backup is fresh" = '''python3 -c "import json,glob,sys,datetime as d; f=glob.glob('/Volumes/*/Developer/.agent-status/*/supafast-backup.json'); j=json.load(open(f[0])); h=(d.datetime.now(d.timezone.utc)-d.datetime.fromisoformat(j['last_end'])).total_seconds()/3600; print(j['state'], round(h,1), 'hours ago'); sys.exit(0 if j['state']=='ok' and h<26 else 1)"'''
