@@ -13,7 +13,8 @@ pre_sudo = true
 #   git_repos  git-autosync (agent-config) owns repo sync on both Macs.
 #   node       Global npm packages are pinned in agent-config/ops/versions.env.
 #   ollama     Would re-pull every local model. Pull models by hand.
-disable = ["gem", "git_repos", "node", "ollama"]
+# chezmoi is off because sync.sh owns the dotfiles. A chezmoi update could replace its links.
+disable = ["chezmoi", "gem", "git_repos", "node", "ollama"]
 
 # A failed image pull does not stop the run.
 ignore_failures = ["containers"]
