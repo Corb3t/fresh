@@ -29,8 +29,8 @@ notify_end = "on_failure"
 display_time = true
 
 [brew]
-# Also upgrade casks that claim to update themselves.
-greedy_cask = true
+# Skip casks that update themselves. Greedy reinstalled ~35 apps per run and stopped .pkg helpers mid-run.
+greedy_cask = false
 
 # Remove dependencies nothing needs any more.
 autoremove = true
