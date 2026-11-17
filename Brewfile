@@ -70,6 +70,10 @@ brew "youssofal/mtplx/mtplx"   # Native MTP speculative decoding for MLX
 cask "codexbar"                # Menu bar usage meter for coding agents
 cask "pieces"                  # Developer snippet and context manager
 cask "pieces-os"               # Background service for Pieces
+brew "ast-grep"                # Structural code search (sg). Agents use it before reading whole files
+brew "rtk"                     # Rust Token Killer. Shortens shell output before it reaches an agent
+brew "ruff"                    # Python linter. agent-config's edit-check hook runs it
+brew "ripgrep"                 # Fast text search (rg). Agents use it in place of grep
 
 # ==============================================================================
 # SYSTEM UTILITIES & FILE MANAGEMENT
